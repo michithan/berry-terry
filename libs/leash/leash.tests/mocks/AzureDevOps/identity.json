@@ -1,0 +1,30 @@
+[
+    {
+      "Id": "e6cc05b3-96cb-65cf-a462-5e1ffd7c73c9",
+      "Descriptor": {
+        "IdentityType": "Microsoft.IdentityModel.Claims.ClaimsIdentity",
+        "Identifier": "5407423b-52cb-4385-a688-3118410c932b\\bary0@emea.com"
+      },
+      "ProviderDisplayName": "Barry, Global",
+      "CustomDisplayName": null,
+      "DisplayName": "Barry, Global",
+      "IsActive": true,
+      "UniqueUserId": 0,
+      "IsContainer": false,
+      "Members": [],
+      "MemberOf": [],
+      "Properties": {
+        "SchemaClassName": "User",
+        "Description": "",
+        "Domain": "5407423b-52cb-4385-a688-3118410c932b",
+        "Account": "bary0@emea.com",
+        "DN": "",
+        "Mail": "global.barry@robots.com",
+        "SpecialType": "Generic",
+        "PUID": "aad:",
+        "ComplianceValidated": "2024-03-11T00:00:00Z",
+        "http://schemas.microsoft.com/identity/claims/objectidentifier": "badbea66-3c33-46e2-b98f-ed8390c58bee",
+        "DirectoryAlias": "bary0"
+      }
+    }
+  ]

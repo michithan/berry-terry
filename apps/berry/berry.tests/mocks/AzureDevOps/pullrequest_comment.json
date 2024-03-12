@@ -1,0 +1,105 @@
+{
+  "id": "af07be1b-f3ad-44c8-a7f1-c4835f2df06b",
+  "eventType": "ms.vss-code.git-pullrequest-comment-event",
+  "publisherId": "tfs",
+  "message": {
+    "text": "Jamal Hartnett has edited a pull request comment",
+    "html": "Jamal Hartnett has <a href=\"https://fabrikam.visualstudio.com/DefaultCollection/_git/Fabrikam/pullrequest/1?discussionId=5\">edited</a> a pull request comment",
+    "markdown": "Jamal Hartnett has [edited](https://fabrikam.visualstudio.com/DefaultCollection/_git/Fabrikam/pullrequest/1?discussionId=5) a pull request comment"
+  },
+  "detailedMessage": {
+    "text": "Jamal Hartnett has edited a pull request comment\r\nThis is my comment.\r\n",
+    "html": "Jamal Hartnett has <a href=\"https://fabrikam.visualstudio.com/DefaultCollection/_git/Fabrikam/pullrequest/1?discussionId=5\">edited</a> a pull request comment<p>This is my comment.</p>",
+    "markdown": "Jamal Hartnett has [edited](https://fabrikam.visualstudio.com/DefaultCollection/_git/Fabrikam/pullrequest/1?discussionId=5) a pull request comment\r\nThis is my comment.\r\n"
+  },
+  "resource": {
+    "comment": {
+      "id": 1,
+      "parentCommentId": 0,
+      "author": {
+        "displayName": "Michael Thanei",
+        "url": "https://spsprodneu1.vssps.visualstudio.com/A94e0583f-97bd-40ef-9efd-f13b89366902/_apis/Identities/8c5c687e-6883-683d-9153-b1836f413a27",
+        "id": "8c5c687e-6883-683d-9153-b1836f413a27",
+        "uniqueName": "thaneim@emea.roche.com",
+        "imageUrl": "https://dev.azure.com/berry-terry-playground/_apis/GraphProfile/MemberAvatars/aad.OGM1YzY4N2UtNjg4My03ODNkLTkxNTMtYjE4MzZmNDEzYTI3"
+      },
+      "content": "Test comment",
+      "publishedDate": "2024-03-08T08:13:24.5Z",
+      "lastUpdatedDate": "2024-03-08T08:13:24.5Z",
+      "lastContentUpdatedDate": "2024-03-08T08:13:24.5Z",
+      "commentType": "text",
+      "_links": {
+        "self": {
+          "href": "https://dev.azure.com/berry-terry-playground/_apis/git/repositories/b818db58-029f-4d85-8ec8-1aeda40fa5ab/pullRequests/1/threads/1/comments/1"
+        },
+        "repository": {
+          "href": "https://dev.azure.com/berry-terry-playground/e3acedef-5ada-41c5-b58c-ab2b79865f7a/_apis/git/repositories/b818db58-029f-4d85-8ec8-1aeda40fa5ab"
+        },
+        "threads": {
+          "href": "https://dev.azure.com/berry-terry-playground/_apis/git/repositories/b818db58-029f-4d85-8ec8-1aeda40fa5ab/pullRequests/1/threads/1"
+        }
+      }
+    },
+    "pullRequest": {
+      "repository": {
+        "id": "b818db58-029f-4d85-8ec8-1aeda40fa5ab",
+        "name": "berry-terry-playground",
+        "url": "https://dev.azure.com/berry-terry-playground/e3acedef-5ada-41c5-b58c-ab2b79865f7a/_apis/git/repositories/b818db58-029f-4d85-8ec8-1aeda40fa5ab",
+        "project": {
+          "id": "e3acedef-5ada-41c5-b58c-ab2b79865f7a",
+          "name": "berry-terry-playground",
+          "url": "https://dev.azure.com/berry-terry-playground/_apis/projects/e3acedef-5ada-41c5-b58c-ab2b79865f7a",
+          "state": "wellFormed",
+          "visibility": "private",
+          "lastUpdateTime": "2024-03-08T08:15:01.763Z"
+        },
+        "size": 726,
+        "remoteUrl": "https://berry-terry-playground@dev.azure.com/berry-terry-playground/berry-terry-playground/_git/berry-terry-playground"
+      },
+      "pullRequestId": 1,
+      "status": "active",
+      "createdBy": {
+        "displayName": "Michael Thanei",
+        "url": "https://spsprodneu1.vssps.visualstudio.com/A94e0583f-97bd-40ef-9efd-f13b89366902/_apis/Identities/8c5c687e-6883-683d-9153-b1836f413a27",
+        "id": "8c5c687e-6883-683d-9153-b1836f413a27",
+        "uniqueName": "thaneim@emea.roche.com",
+        "imageUrl": "https://dev.azure.com/berry-terry-playground/_api/_common/identityImage?id=8c5c687e-6883-683d-9153-b1836f413a27"
+      },
+      "creationDate": "2024-03-08T08:12:21.909364Z",
+      "title": "Updated README.md",
+      "description": "Updated README.md",
+      "sourceRefName": "refs/heads/test-pr-branch",
+      "targetRefName": "refs/heads/main",
+      "mergeStatus": "succeeded",
+      "mergeId": "515b04be-e5c9-4fbf-9465-406e1212b300",
+      "lastMergeSourceCommit": {
+        "commitId": "a9a24c3f115b3a90dbbce67e78abb1dd3ffdf694",
+        "url": "https://dev.azure.com/berry-terry-playground/e3acedef-5ada-41c5-b58c-ab2b79865f7a/_apis/git/repositories/b818db58-029f-4d85-8ec8-1aeda40fa5ab/commits/a9a24c3f115b3a90dbbce67e78abb1dd3ffdf694"
+      },
+      "lastMergeTargetCommit": {
+        "commitId": "4ede219c63167961c8229b7ceb4b66fc116d1289",
+        "url": "https://dev.azure.com/berry-terry-playground/e3acedef-5ada-41c5-b58c-ab2b79865f7a/_apis/git/repositories/b818db58-029f-4d85-8ec8-1aeda40fa5ab/commits/4ede219c63167961c8229b7ceb4b66fc116d1289"
+      },
+      "lastMergeCommit": {
+        "commitId": "7cbfa3cdb0895aac3917a622e2acdbff67b9b6e7",
+        "url": "https://dev.azure.com/berry-terry-playground/e3acedef-5ada-41c5-b58c-ab2b79865f7a/_apis/git/repositories/b818db58-029f-4d85-8ec8-1aeda40fa5ab/commits/7cbfa3cdb0895aac3917a622e2acdbff67b9b6e7"
+      },
+      "reviewers": [],
+      "commits": [],
+      "url": "https://dev.azure.com/berry-terry-playground/e3acedef-5ada-41c5-b58c-ab2b79865f7a/_apis/git/repositories/b818db58-029f-4d85-8ec8-1aeda40fa5ab/pullRequests/1"
+    }
+  },
+  "resourceVersion": "2.0",
+  "resourceContainers": {
+    "collection": {
+      "id": "c12d0eb8-e382-443b-9f9c-c52cba5014c2"
+    },
+    "account": {
+      "id": "f844ec47-a9db-4511-8281-8b63f4eaf94e"
+    },
+    "project": {
+      "id": "be9b3917-87e6-42a4-a549-2bc06a7a878f"
+    }
+  },
+  "createdDate": "2024-02-29T14:37:39.543Z"
+}

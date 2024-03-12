@@ -1,0 +1,15 @@
+{
+  "body": {
+    "content": "ewogICAibW9kZWwiOiAiY2xhdWRlLTMtb3B1cy0yMDI0MDIyOSIsCiAgICJtYXhfdG9rZW5zIjogMTAyNCwKICAgIm1lc3NhZ2VzIjogWyAKICAgICAgewogICAgICAgICAicm9sZSI6ICJ1c2VyIiwKICAgICAgICAgImNvbnRlbnQiOiAiT24gdGhlIHB1bGwgcmVxdWVzdCwgdGhlIGZvbGxvd2luZyBjb21tZW50IHdhcyBtYWRlOiIKICAgICAgfQogICBdCn0=",
+    "file": false,
+    "fileSize": false
+  },
+  "headers": {
+    "x-api-key": "<API-KEY>",
+    "anthropic-version": "2023-06-01",
+    "content-type": "application/json"
+  },
+  "method": "POST",
+  "title": "Example Claude 3 api request",
+  "url": "https://api.anthropic.com/v1/messages"
+}

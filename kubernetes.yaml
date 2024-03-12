@@ -1,0 +1,194 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ NAMESPACE }}
+  annotations:
+    linkerd.io/inject: enabled
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: berry
+  namespace: {{ NAMESPACE }}
+spec:
+  ports:
+    - name: https
+      protocol: TCP
+      port: 443
+      targetPort: https
+      appProtocol: https
+  selector:
+    app: berry
+  type: ClusterIP
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: berry
+  namespace: {{ NAMESPACE }}
+  labels:
+    app: berry
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: berry
+  template:
+    metadata:
+      labels:
+        app: berry
+    spec:
+      nodeSelector:
+        nodeGroup: "default"
+      volumes:
+        - name: berry-certificate
+          secret:
+            secretName: berry-certificate
+            defaultMode: 420
+        - name: berry-config
+          configMap:
+            name: berry-config
+            defaultMode: 420
+      containers:
+        - name: berry
+          image: {{ BERRY_IMAGE }}
+          ports:
+            - name: https
+              containerPort: 443
+              protocol: TCP
+          resources:
+            requests:
+              cpu: 100m
+              memory: 200Mi
+            limits:
+              cpu: 400m
+              memory: 800Mi
+          imagePullPolicy: Always
+          volumeMounts:
+            - name: berry-config
+              mountPath: /app/appsettings.json
+              subPath: appsettings.json
+            - name: berry-certificate
+              readOnly: true
+              mountPath: /app/ssl
+            - name: berry-certificate
+              readOnly: true
+              mountPath: /usr/local/share/ca-certificates
+          env:
+            - name: ASPNETCORE_Kestrel__Certificates__Default__Path
+              value: /app/ssl/tls.crt
+            - name: ASPNETCORE_Kestrel__Certificates__Default__KeyPath
+              value: /app/ssl/tls.key
+            - name: AiConfiguration_AnthropicApiKey
+              value: "{{ ANTHROPIC_API_KEY }}"
+            - name: AzureDevOpsClientConfiguration_Organization
+              value: "{{ ADO_ORGANIZATION }}"
+            - name: AzureDevOpsClientConfiguration_Project
+              value: "{{ ADO_PROJECT }}"
+            - name: AzureDevOpsClientConfiguration_Token
+              value: "{{ ADO_TOKEN }}"
+            - name: AzureDevOpsClientConfiguration_RepositoryId
+              value: "{{ ADO_REPOSITORY_ID }}"
+            - name: AzureDevOpsClientConfiguration_WebhookSecret
+              value: "{{ ADO_WEBHOOK_SECRET }}"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: berry-config
+  namespace: {{ NAMESPACE }}
+data:
+  appsettings.json: |
+    {
+      "Kestrel": {
+        "EndPoints": {
+          "Http": {
+            "Url": "http://webhooks.{{ HOST_NAME }}"
+          },
+          "Https": {
+            "Url": "https://webhooks.{{ HOST_NAME }}"
+          }
+        }
+      },
+      "https_port": 443,
+      "Logging": {
+        "LogLevel": {
+          "Default": "Information",
+          "Microsoft.AspNetCore": "Warning"
+        }
+      },
+      "AllowedHosts": "*",
+      "BotName": "Barry",
+      "AiConfiguration": {
+        "Model": null,
+        "AzureEndpoint": null,
+        "ApiKey": null,
+        "AnthropicApiKey": "<ANTHROPIC_API_KEY>"
+      },
+      "AzureDevOpsClientConfiguration": {
+        "Organization": "<ADO_ORGANIZATION_NAME>",
+        "Project": "<ADO_PROJECT_NAME>",
+        "Token": "<ADO_PERSONAL_ACCESS_TOKEN>",
+        "RepositoryId": "<ADO_REPOSITORY_ID>",
+        "WebhookSecret": "<ADO_WEBHOOK_SECRET>"
+      }
+    }
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: berry-certificate
+  namespace: {{ NAMESPACE }}
+spec:
+  dnsNames:
+    - berry
+  isCA: true
+  commonName: berry-certificate
+  secretName: berry-certificate
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+  issuerRef:
+    name: berry-issuer
+    kind: Issuer
+    group: cert-manager.io
+---
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: berry-issuer
+  namespace: {{ NAMESPACE }}
+spec:
+  selfSigned: {}
+---
+kind: Ingress
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: berry
+  namespace: {{ NAMESPACE }}
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: HTTPS
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/use-regex: "true"
+spec:
+  ingressClassName: nginx
+  defaultBackend:
+    service:
+      name: berry
+      port:
+        name: https
+  tls:
+    - hosts:
+        - webhooks.{{ HOST_NAME }}
+      secretName: {{ PUBLIC_CERT_SECRET_NAME }}
+  rules:
+    - host: webhooks.{{ HOST_NAME }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: berry
+                port:
+                  name: https

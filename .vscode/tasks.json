@@ -1,0 +1,16 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "bridge-to-kubernetes.resource",
+      "type": "bridge-to-kubernetes.resource",
+      "resource": "berry",
+      "resourceType": "service",
+      "ports": [443],
+      "targetCluster": "${env:EDITOR_TARGET_CLUSTER}",
+      "targetNamespace": "${env:EDITOR_TARGET_NAMESPACE}",
+      "useKubernetesServiceEnvironmentVariables": false,
+      "targetContainer": "berry"
+    }
+  ]
+}

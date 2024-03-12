@@ -1,0 +1,6 @@
+version: 0.1
+env:
+  - name: ASPNETCORE_Kestrel__Certificates__Default__Path
+    value: null
+  - name: ASPNETCORE_Kestrel__Certificates__Default__KeyPath
+    value: null
