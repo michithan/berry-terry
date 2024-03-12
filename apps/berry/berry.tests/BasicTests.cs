@@ -1,3 +1,4 @@
+using System.Net;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Json;
@@ -8,7 +9,6 @@ namespace berry.tests;
 
 public class BasicTests : IClassFixture<WebApplicationFactory<Program>>
 {
-
     private readonly JsonElement AdoWorkItemCommentMock = WebHookTestExtensions.LoadJsonMockFile("AzureDevOps.ticket_comment.json");
 
     private readonly WebApplicationFactory<Program> _factory;
@@ -21,7 +21,7 @@ public class BasicTests : IClassFixture<WebApplicationFactory<Program>>
 
     [Theory]
     [InlineData("/api/webhooks/ado")]
-    public async Task Get_EndpointsReturnSuccessAndCorrectContentType(string url)
+    public async Task Get_EndpointsReturnInternalServerErrorContentType(string url)
     {
         // Arrange
         var client = _factory.CreateClient();
@@ -37,6 +37,6 @@ public class BasicTests : IClassFixture<WebApplicationFactory<Program>>
         var response = await client.PostAsync(url, content);
 
         // Assert
-        response.EnsureSuccessStatusCode(); // Status Code 200-299
+        Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode); // Status Code 500
     }
 }

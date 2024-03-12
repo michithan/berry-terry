@@ -6,23 +6,9 @@ using Microsoft.TeamFoundation.WorkItemTracking.WebApi.Models;
 
 namespace leash.ticketing.providers.azuredevops;
 
-public class AzureDevOpsTicketingProvider : TicketingProviderBase, IAzureDevOpsTicketingProvider
+public class AzureDevOpsTicketingProvider(IAzureDevOpsClient azureDevOpsClient) : TicketingProviderBase, IAzureDevOpsTicketingProvider
 {
-    private string Organization { get; init; }
-
-    private string Project { get; init; }
-
-    IAzureDevOpsClient AzureDevOpsClient { get; init; }
-
-    public AzureDevOpsTicketingProvider(AzureDevOpsClientConfiguration azureDevOpsConfiguration, IAzureDevOpsClient? connection = null)
-    {
-        Organization = azureDevOpsConfiguration.Organization;
-        Project = azureDevOpsConfiguration.Project;
-
-        var organizationUri = new Uri($"https://dev.azure.com/{Organization}");
-
-        AzureDevOpsClient = connection ?? new AzureDevOpsClient(organizationUri, Project, string.Empty, azureDevOpsConfiguration.Token);
-    }
+    IAzureDevOpsClient AzureDevOpsClient { get; init; } = azureDevOpsClient;
 
     public override async Task<ITicket?> GetTicketByIdAsync(string id)
     {

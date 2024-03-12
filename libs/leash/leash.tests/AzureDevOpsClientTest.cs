@@ -37,7 +37,8 @@ public class AzureDevOpsClientTest
             Organization = Organization,
             Project = Project,
             RepositoryId = Repository,
-            Token = Token
+            Token = Token,
+            WebhookSecret = Guid.NewGuid().ToString()
         };
 
         PullRequest = new()
@@ -59,7 +60,7 @@ public class AzureDevOpsClientTest
     public void AzureDevOpsClient_Should_Create()
     {
         // Act
-        var provider = new AzureDevOpsScmProvider(Configuration, MockAzureDevOpsConnection);
+        var provider = new AzureDevOpsScmProvider(MockAzureDevOpsConnection);
 
         // Assert
         Assert.IsNotNull(provider);
@@ -70,7 +71,7 @@ public class AzureDevOpsClientTest
     public async Task AzureDevOpsClient_Should_GetAllPullRequestsAsync()
     {
         // Arrange
-        var provider = new AzureDevOpsScmProvider(Configuration, MockAzureDevOpsConnection);
+        var provider = new AzureDevOpsScmProvider(MockAzureDevOpsConnection);
 
         // Act
         var pullRequests = await provider.GetAllPullRequestsAsync();
@@ -86,7 +87,7 @@ public class AzureDevOpsClientTest
     public async Task AzureDevOpsClient_Should_GetPullRequestByIdAsync()
     {
         // Arrange
-        var provider = new AzureDevOpsScmProvider(Configuration, MockAzureDevOpsConnection);
+        var provider = new AzureDevOpsScmProvider(MockAzureDevOpsConnection);
 
         // Act
         var pullRequest = await provider.GetPullRequestByIdAsync(1);
@@ -102,7 +103,7 @@ public class AzureDevOpsClientTest
     public async Task AzureDevOpsClient_CommentOnPullRequestThreadAsync()
     {
         // Arrange
-        var provider = new AzureDevOpsScmProvider(Configuration, MockAzureDevOpsConnection);
+        var provider = new AzureDevOpsScmProvider(MockAzureDevOpsConnection);
         var pullRequest = new AzureDevOpsPullRequest()
         {
             Id = "1",

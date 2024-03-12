@@ -24,12 +24,13 @@ public class AzureDevOpsClient : IAzureDevOpsClient
 
     private IdentitySelf? IdentitySelf { get; set; }
 
-    public AzureDevOpsClient(Uri organizationUri, string project, string repositoryId, string token)
+    public AzureDevOpsClient(AzureDevOpsClientConfiguration azureDevOpsClientConfiguration)
     {
-        Project = project;
-        RepositoryId = repositoryId;
+        Project = azureDevOpsClientConfiguration.Project;
+        RepositoryId = azureDevOpsClientConfiguration.RepositoryId;
+        var organizationUri = new Uri($"https://dev.azure.com/{azureDevOpsClientConfiguration.Organization}");
 
-        VssBasicCredential basicCredential = new(string.Empty, token);
+        VssBasicCredential basicCredential = new(string.Empty, azureDevOpsClientConfiguration.Token);
         Connection = new VssConnection(organizationUri, basicCredential);
     }
 

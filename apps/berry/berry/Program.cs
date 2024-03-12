@@ -5,6 +5,8 @@ using berry.interaction.actions;
 using berry.interaction.ai;
 using berry.interaction.handlers;
 using berry.interaction.receivers;
+using leash.clients.azuredevops;
+using leash.clients.google;
 using leash.scm.provider;
 using leash.scm.provider.azuredevops;
 using leash.ticketing.providers;
@@ -30,6 +32,7 @@ builder.Services.AddSingleton(berryConfiguration.AiConfiguration);
 if (berryConfiguration.AzureDevOpsClientConfiguration is not null)
 {
     builder.Services.AddSingleton(berryConfiguration.AzureDevOpsClientConfiguration);
+    builder.Services.AddTransient<IAzureDevOpsClient, AzureDevOpsClient>();
     builder.Services.AddTransient<IAzureDevOpsScmProvider, AzureDevOpsScmProvider>();
     builder.Services.AddTransient<IAzureDevOpsTicketingProvider, AzureDevOpsTicketingProvider>();
 
@@ -38,6 +41,7 @@ if (berryConfiguration.AzureDevOpsClientConfiguration is not null)
 }
 if (berryConfiguration.GoogleClientConfiguration is not null)
 {
+    builder.Services.AddTransient<IGoogleClient, GoogleClient>();
     builder.Services.AddSingleton(berryConfiguration.GoogleClientConfiguration);
 }
 

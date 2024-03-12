@@ -6,26 +6,9 @@ using Microsoft.TeamFoundation.SourceControl.WebApi;
 
 namespace leash.scm.provider.azuredevops;
 
-public class AzureDevOpsScmProvider : ScmProviderBase, IAzureDevOpsScmProvider
+public class AzureDevOpsScmProvider(IAzureDevOpsClient azureDevOpsClient) : ScmProviderBase, IAzureDevOpsScmProvider
 {
-    private string Organization { get; init; }
-
-    private string Project { get; init; }
-
-    private string RepositoryId { get; init; }
-
-    IAzureDevOpsClient AzureDevOpsClient { get; init; }
-
-    public AzureDevOpsScmProvider(AzureDevOpsClientConfiguration azureDevOpsConfiguration, IAzureDevOpsClient? connection = null)
-    {
-        Organization = azureDevOpsConfiguration.Organization;
-        Project = azureDevOpsConfiguration.Project;
-        RepositoryId = azureDevOpsConfiguration.RepositoryId;
-
-        var organizationUri = new Uri($"https://dev.azure.com/{Organization}");
-
-        AzureDevOpsClient = connection ?? new AzureDevOpsClient(organizationUri, Project, RepositoryId, azureDevOpsConfiguration.Token);
-    }
+    IAzureDevOpsClient AzureDevOpsClient { get; init; } = azureDevOpsClient;
 
     public override async Task<IEnumerable<IPullRequest>> GetAllPullRequestsAsync()
     {
