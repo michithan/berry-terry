@@ -36,6 +36,10 @@ if (berryConfiguration.AzureDevOpsClientConfiguration is not null)
     builder.Services.AddTransient<IScmProvider, AzureDevOpsScmProvider>();
     builder.Services.AddTransient<ITicketingProvider, AzureDevOpsTicketingProvider>();
 }
+if (berryConfiguration.GoogleClientConfiguration is not null)
+{
+    builder.Services.AddSingleton(berryConfiguration.GoogleClientConfiguration);
+}
 
 // Add services to interact with ai
 builder.Services.AddTransient<IAiContext, AiContext>();

@@ -1,4 +1,5 @@
 using leash.clients.azuredevops;
+using leash.clients.google;
 using leash.utils;
 
 namespace berry.configuration;
@@ -15,4 +16,6 @@ public class BerryConfiguration : ConfigurationBase
     public required AiConfiguration AiConfiguration { get; init; }
 
     public required AzureDevOpsClientConfiguration AzureDevOpsClientConfiguration { get; init; }
+
+    public required GoogleClientConfiguration GoogleClientConfiguration { get; init; }
 }

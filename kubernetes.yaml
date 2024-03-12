@@ -91,6 +91,12 @@ spec:
               value: "{{ ADO_REPOSITORY_ID }}"
             - name: AzureDevOpsClientConfiguration_WebhookSecret
               value: "{{ ADO_WEBHOOK_SECRET }}"
+            - name: GoogleClientConfiguration_ClientId
+              value: "{{ GOOGLE_CLIENT_ID }}"
+            - name: GoogleClientConfiguration_ClientSecret
+              value: "{{ GOOGLE_CLIENT_SECRET }}"
+            - name: GoogleClientConfiguration_UserName
+              value: "{{ GOOGLE_USER_NAME }}"
 ---
 apiVersion: v1
 kind: ConfigMap
