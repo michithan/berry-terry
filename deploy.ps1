@@ -10,7 +10,7 @@ function Invoke-Deploy {
             -Replace '{{ PUBLIC_CERT_SECRET_NAME }}', $env:PUBLIC_CERT_SECRET_NAME `
             -Replace '{{ ANTHROPIC_API_KEY }}', $env:ANTHROPIC_API_KEY `
             -Replace '{{ ADO_TOKEN }}', $env:ADO_TOKEN `
-            -Replace '{{ ADO_ORGANIZATION }}', $env:ADO_WEBHOOK_SECRET `
+            -Replace '{{ ADO_ORGANIZATION }}', $env:ADO_ORGANIZATION `
             -Replace '{{ ADO_PROJECT }}', $env:ADO_WEBHOOK_SECRET `
             -Replace '{{ ADO_WEBHOOK_SECRET }}', $env:ADO_WEBHOOK_SECRET `
             -Replace '{{ ADO_REPOSITORY_ID }}', $env:ADO_REPOSITORY_ID `
