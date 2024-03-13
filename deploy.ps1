@@ -11,7 +11,7 @@ function Invoke-Deploy {
             -Replace '{{ ANTHROPIC_API_KEY }}', $env:ANTHROPIC_API_KEY `
             -Replace '{{ ADO_TOKEN }}', $env:ADO_TOKEN `
             -Replace '{{ ADO_ORGANIZATION }}', $env:ADO_ORGANIZATION `
-            -Replace '{{ ADO_PROJECT }}', $env:ADO_WEBHOOK_SECRET `
+            -Replace '{{ ADO_PROJECT }}', $env:ADO_PROJECT `
             -Replace '{{ ADO_WEBHOOK_SECRET }}', $env:ADO_WEBHOOK_SECRET `
             -Replace '{{ ADO_REPOSITORY_ID }}', $env:ADO_REPOSITORY_ID `
             -Replace '{{ GOOGLE_CLIENT_ID }}', $env:GOOGLE_CLIENT_ID `
