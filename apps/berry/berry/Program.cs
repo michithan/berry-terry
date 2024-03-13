@@ -34,7 +34,7 @@ builder.Services.AddSingleton(berryConfiguration.AiConfiguration);
 if (berryConfiguration.AzureDevOpsClientConfiguration is not null)
 {
     builder.Services.AddSingleton(berryConfiguration.AzureDevOpsClientConfiguration);
-    builder.Services.AddTransient<IAzureDevOpsClient, AzureDevOpsClient>();
+    builder.Services.AddSingleton<IAzureDevOpsClient, AzureDevOpsClient>();
     builder.Services.AddTransient<IAzureDevOpsScmProvider, AzureDevOpsScmProvider>();
     builder.Services.AddTransient<IAzureDevOpsTicketingProvider, AzureDevOpsTicketingProvider>();
 
@@ -44,7 +44,7 @@ if (berryConfiguration.AzureDevOpsClientConfiguration is not null)
 if (berryConfiguration.GoogleClientConfiguration is not null)
 {
     builder.Services.AddSingleton(berryConfiguration.GoogleClientConfiguration);
-    builder.Services.AddTransient<IGoogleClient, GoogleClient>();
+    builder.Services.AddSingleton<IGoogleClient, GoogleClient>();
     builder.Services.AddTransient<IGoogleChatProvider, GoogleChatProvider>();
 
     builder.Services.AddTransient<IChatProvider, GoogleChatProvider>();
