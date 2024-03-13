@@ -4,5 +4,7 @@ namespace leash.clients.google;
 
 public interface IGoogleClient
 {
-    public void SendMessage(Message message, string spaceName);
+    public void SendMessageToSpace(Message message, string spaceName);
+
+    public List<Message> GetAllUnreadMessages();
 }

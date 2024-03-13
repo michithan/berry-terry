@@ -8,20 +8,32 @@ namespace berry;
 [ApiController]
 public class WebHookController : ControllerBase
 {
-    private AzureDevOpNotificationReceiver AzureDevOpWebHookHandler { get; init; }
+    private AzureDevOpNotificationReceiver AzureDevOpNotificationReceiver { get; init; }
 
-    public WebHookController(AzureDevOpNotificationReceiver azureDevOpWebHookHandler)
+    private GoogleChatNotificationReceiver GoogleChatNotificationReceiver { get; init; }
+
+    public WebHookController(AzureDevOpNotificationReceiver azureDevOpNotificationReceiver, GoogleChatNotificationReceiver googleChatNotificationReceiver)
     {
         Console.WriteLine("WebHookController created");
-        AzureDevOpWebHookHandler = azureDevOpWebHookHandler;
+        AzureDevOpNotificationReceiver = azureDevOpNotificationReceiver;
+        GoogleChatNotificationReceiver = googleChatNotificationReceiver;
     }
 
     [HttpPost("ado")]
-    public async Task<IActionResult> HandleAdoPost([FromBody] JsonElement  notificationBody)
+    public async Task<IActionResult> HandleAdoPost([FromBody] JsonElement notificationBody)
     {
         Console.WriteLine("Received ADO notification");
         Console.WriteLine(notificationBody.ToString());
-        await AzureDevOpWebHookHandler.ReceiveNotification(notificationBody);
+        await AzureDevOpNotificationReceiver.ReceiveNotification(notificationBody);
+        return Ok();
+    }
+
+    [HttpPost("google")]
+    public async Task<IActionResult> HandleGooglePost([FromBody] JsonElement notificationBody)
+    {
+        Console.WriteLine("Received Google notification");
+        Console.WriteLine(notificationBody.ToString());
+        await GoogleChatNotificationReceiver.ReceiveNotification(notificationBody);
         return Ok();
     }
 }
