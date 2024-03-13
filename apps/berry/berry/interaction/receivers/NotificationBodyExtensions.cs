@@ -36,6 +36,8 @@ public static class NotificationBodyExtensions
             JsonValueKind.String when type.IsTypeOf<string>() => (property.GetString() ?? string.Empty).ToType<T>(),
             JsonValueKind.Number when type.IsTypeOf<string>() => property.GetInt32().ToString().ToType<T>(),
             JsonValueKind.Number when type.IsTypeOf<int>() => property.GetInt32().ToType<T>(),
+            JsonValueKind.True when type.IsTypeOf<bool>() => true.ToType<T>(),
+            JsonValueKind.False when type.IsTypeOf<bool>() => false.ToType<T>(),
             _ => value
         };
     }
@@ -47,6 +49,7 @@ public static class NotificationBodyExtensions
         {
             _ when type.IsTypeOf<string>() => GetPropertyValue<T>(notificationBody, propertyNames) ?? string.Empty.ToType<T>(),
             _ when type.IsTypeOf<int>() => GetPropertyValue<T>(notificationBody, propertyNames) ?? 0.ToType<T>(),
+            _ when type.IsTypeOf<bool>() => GetPropertyValue<T>(notificationBody, propertyNames) ?? 0.ToType<T>(),
             _ => throw new NotImplementedException($"GetPropertyValueOrDefault is not implemented for Type {typeof(T)}."),
         };
     }

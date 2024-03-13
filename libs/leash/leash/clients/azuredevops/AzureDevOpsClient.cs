@@ -25,7 +25,7 @@ public class AzureDevOpsClient(AzureDevOpsClientConfiguration azureDevOpsClientC
         AzureDevOpsClientCore.GitHttpClient.GetPullRequestThreadAsync(Project, RepositoryId, pullRequestId, threadId);
 
     public Task<Microsoft.TeamFoundation.SourceControl.WebApi.Comment?> GetPullRequestCommentAsync(int pullRequestId, int threadId, int commentId) =>
-        AzureDevOpsClientCore.GitHttpClient.GetCommentAsync(Project, pullRequestId, threadId, commentId);
+        AzureDevOpsClientCore.GitHttpClient.GetCommentAsync(RepositoryId, pullRequestId, threadId, commentId);
 
     public Task<Microsoft.TeamFoundation.WorkItemTracking.WebApi.Models.Comment> GetWorkItemCommentAsync(int workItemId, int commentId) =>
         AzureDevOpsClientCore.WorkItemTrackingHttpClient.GetCommentAsync(Project, workItemId, commentId);

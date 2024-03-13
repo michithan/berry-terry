@@ -47,6 +47,13 @@ public class AzureDevOpNotificationReceiver(IAzureDevOpsScmProvider azureDevOpsS
 
     public async Task<string?> HandlePullRequestCommentNotification(JsonElement notificationBody)
     {
+        bool isDeleted = notificationBody.GetPropertyValueOrDefault<bool>("resource", "comment", "isDeleted");
+
+        if (isDeleted)
+        {
+            return null;
+        }
+
         int pullRequestId = notificationBody.GetPropertyValueOrDefault<string>("resource", "pullRequest", "pullRequestId").ToInt();
         int threadId = notificationBody.GetPropertyValueOrDefault<string>("resource", "comment", "_links", "threads", "href").Split('/').Last().ToInt();
         int commentId = notificationBody.GetPropertyValueOrDefault<string>("resource", "comment", "id").ToInt();
