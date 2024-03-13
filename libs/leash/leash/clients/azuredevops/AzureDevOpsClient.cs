@@ -6,6 +6,8 @@ namespace leash.clients.azuredevops;
 
 public class AzureDevOpsClient(AzureDevOpsClientConfiguration azureDevOpsClientConfiguration) : IAzureDevOpsClient
 {
+    private AzureDevOpsClientConfiguration AzureDevOpsClientConfiguration { get; init; } = azureDevOpsClientConfiguration;
+
     private AzureDevOpsClientCore AzureDevOpsClientCore { get; init; } = new(azureDevOpsClientConfiguration);
 
     private string Project { get; init; } = azureDevOpsClientConfiguration.Project;
@@ -34,7 +36,7 @@ public class AzureDevOpsClient(AzureDevOpsClientConfiguration azureDevOpsClientC
         AzureDevOpsClientCore.IdentityHttpClient.GetDescriptorByIdAsync(identityId);
 
     public bool IsMentionedOnComment(string comment) =>
-        comment.Contains(AzureDevOpsClientCore.IdentitySelf.Id.ToString(), StringComparison.OrdinalIgnoreCase);
+        comment.Contains(AzureDevOpsClientConfiguration.IdentityId, StringComparison.OrdinalIgnoreCase);
 
     public Task<WorkItem> GetWorkItemByIdAsync(int id) =>
         AzureDevOpsClientCore.WorkItemTrackingHttpClient.GetWorkItemAsync(id, expand: WorkItemExpand.All);

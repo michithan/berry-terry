@@ -38,4 +38,11 @@ public class AzureDevOpsClientConfiguration : ConfigurationBase
         get => GetEnvironmentVariableOrDefault(nameof(WebhookSecret), _WebhookSecret);
         init => _WebhookSecret = value;
     }
+
+    private string? _IdentityId { get; set; }
+    public required string IdentityId
+    {
+        get => GetEnvironmentVariableOrDefault(nameof(IdentityId), _IdentityId);
+        init => _IdentityId = value;
+    }
 }

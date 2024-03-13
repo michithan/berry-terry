@@ -91,6 +91,8 @@ spec:
               value: "{{ ADO_REPOSITORY_ID }}"
             - name: AzureDevOpsClientConfiguration_WebhookSecret
               value: "{{ ADO_WEBHOOK_SECRET }}"
+            - name: AzureDevOpsClientConfiguration_IdentityId
+              value: "{{ ADO_IDENTITY_ID }}"
             - name: GoogleClientConfiguration_ClientId
               value: "{{ GOOGLE_CLIENT_ID }}"
             - name: GoogleClientConfiguration_ClientSecret
