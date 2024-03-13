@@ -2,7 +2,7 @@ using leash.clients.google;
 
 namespace leash.chat.providers.google;
 
-public class GoogleChatProvider(IGoogleClient googleClient) : ChatProviderBase
+public class GoogleChatProvider(IGoogleClient googleClient) : ChatProviderBase, IGoogleChatProvider
 {
     private IGoogleClient GoogleClient { get; init; } = googleClient;
 
