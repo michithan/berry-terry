@@ -5,5 +5,5 @@ namespace berry.interaction.handlers;
 
 public interface ITicketHandler
 {
-    Task HandleTicketComment(ITicket ticket, IThread thread, IComment comment);
+    Task<string?> HandleTicketComment(ITicket ticket, IThread thread, IComment comment);
 }

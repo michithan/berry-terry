@@ -19,7 +19,8 @@ public static class GoogleChatMappingExtensions
     public static GoogleChatMessage ToChatMessage(this Message message) =>
         new()
         {
-            Text = message.Text
+            Text = message.Text,
+            IsBotMentioned = false
         };
 
     public static GoogleChatSpace ToChatSpace(this Space space) =>

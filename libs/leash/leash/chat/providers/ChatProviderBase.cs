@@ -2,7 +2,7 @@ namespace leash.chat.providers;
 
 public abstract class ChatProviderBase : IChatProvider
 {
-    public abstract void SendMessageToSpace(IChatMessage message, IChatSpace space);
+    public abstract string? SendMessageToSpace(IChatSpace space, IChatMessage message);
 
     public abstract IEnumerable<IChatMessage> GetAllUnreadMessages();
 }

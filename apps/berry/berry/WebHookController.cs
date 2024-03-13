@@ -1,5 +1,6 @@
 using System.Text.Json;
 using berry.interaction.receivers;
+using leash.chat.providers.google;
 using Microsoft.AspNetCore.Mvc;
 
 namespace berry;
@@ -29,11 +30,21 @@ public class WebHookController : ControllerBase
     }
 
     [HttpPost("google")]
-    public async Task<IActionResult> HandleGooglePost([FromBody] JsonElement notificationBody)
+    public async Task<ActionResult<GoogleChatMessageResponse>> HandleGooglePost([FromBody] JsonElement notificationBody)
     {
         Console.WriteLine("Received Google notification");
         Console.WriteLine(notificationBody.ToString());
-        await GoogleChatNotificationReceiver.ReceiveNotification(notificationBody);
-        return Ok();
+        var answer = await GoogleChatNotificationReceiver.ReceiveNotification(notificationBody);
+
+        if (answer == null)
+        {
+            return Ok();
+        }
+
+        GoogleChatMessageResponse response = new()
+        {
+            Text = answer,
+        };
+        return Ok(response);
     }
 }

@@ -6,8 +6,8 @@ namespace berry.interaction.actions;
 
 public class TicketActor(ITicketingProvider ticketingProvider) : ITicketActor
 {
-    public async Task AnswerTicketComment(ITicket ticket, IThread thread, IComment comment)
-    {
-        await ticketingProvider.CommentOnTicketAsync(ticket, thread, comment);
-    }
+    private ITicketingProvider TicketingProvider { get; init; } = ticketingProvider;
+
+    public Task<string?> AnswerTicketComment(ITicket ticket, IThread thread, IComment comment) =>
+        TicketingProvider.CommentOnTicketAsync(ticket, thread, comment);
 }

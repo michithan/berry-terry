@@ -5,8 +5,12 @@ using leash.scm.pullRequest;
 
 namespace berry.interaction.handlers;
 
-public class PullRequestHandler(IAiContext AiContext, IPullRequestActor pullRequestActor) : IPullRequestHandler
+public class PullRequestHandler(IAiContext aiContext, IPullRequestActor pullRequestActor) : IPullRequestHandler
 {
+    private IAiContext AiContext { get; init; } = aiContext;
+
+    private IPullRequestActor PullRequestActor { get; init; } = pullRequestActor;
+
     public async Task HandlePullRequestComment(IPullRequest pullRequest, IThread thread, IComment comment)
     {
         var prompt = @$"
@@ -19,6 +23,6 @@ public class PullRequestHandler(IAiContext AiContext, IPullRequestActor pullRequ
         var answer = result.ToString();
         var responseComment = comment.CreateAnswer(answer);
 
-        await pullRequestActor.AnswerPullRequestComment(pullRequest, thread, responseComment);
+        await PullRequestActor.AnswerPullRequestComment(pullRequest, thread, responseComment);
     }
 }

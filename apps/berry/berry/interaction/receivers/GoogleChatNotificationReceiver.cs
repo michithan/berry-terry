@@ -1,19 +1,34 @@
 using System.Text.Json;
+using berry.interaction.handlers;
 using leash.chat.providers.google;
 
 namespace berry.interaction.receivers;
 
-public class GoogleChatNotificationReceiver(IGoogleChatProvider googleChatProvider) : NotificationReceiverBase
+public class GoogleChatNotificationReceiver(IGoogleChatProvider googleChatProvider, IChatHandler chatHandler) : NotificationReceiverBase
 {
     IGoogleChatProvider GoogleChatProvider { get; init; } = googleChatProvider;
 
-    public override Task ReceiveNotification(JsonElement notificationBody)
+    IChatHandler ChatHandler { get; init; } = chatHandler;
+
+    public override async Task<string?> ReceiveNotification(JsonElement notificationBody)
     {
-        var unreadMessages = GoogleChatProvider.GetAllUnreadMessages();
+        var eventType = notificationBody.GetPropertyValueOrDefault<string>("type");
 
-        var notificationMessage = notificationBody.GetPropertyValueOrDefault<string>("message");
-        var notificationSpace = notificationBody.GetPropertyValueOrDefault<string>("space");
+        if (eventType != "MESSAGE")
+        {
+            return null;
+        }
 
-        throw new NotImplementedException();
+        var space = new GoogleChatSpace
+        {
+            Name = notificationBody.GetPropertyValueOrDefault<string>("space", "name"),
+        };
+        var message = new GoogleChatMessage
+        {
+            Text = notificationBody.GetPropertyValueOrDefault<string>("message", "text"),
+            IsBotMentioned = false,
+        };
+
+        return await ChatHandler.HandleChatMessage(space, message);
     }
 }

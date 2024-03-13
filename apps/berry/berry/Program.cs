@@ -5,6 +5,7 @@ using berry.interaction.actions;
 using berry.interaction.ai;
 using berry.interaction.handlers;
 using berry.interaction.receivers;
+using leash.chat.providers;
 using leash.chat.providers.google;
 using leash.clients.azuredevops;
 using leash.clients.google;
@@ -43,8 +44,10 @@ if (berryConfiguration.AzureDevOpsClientConfiguration is not null)
 if (berryConfiguration.GoogleClientConfiguration is not null)
 {
     builder.Services.AddSingleton(berryConfiguration.GoogleClientConfiguration);
-    builder.Services.AddTransient<IGoogleChatProvider, GoogleChatProvider>();
     builder.Services.AddTransient<IGoogleClient, GoogleClient>();
+    builder.Services.AddTransient<IGoogleChatProvider, GoogleChatProvider>();
+
+    builder.Services.AddTransient<IChatProvider, GoogleChatProvider>();
 }
 
 // Add services to interact with ai
@@ -57,10 +60,12 @@ builder.Services.AddTransient<GoogleChatNotificationReceiver>();
 // Add services to handle vendor agnostic events
 builder.Services.AddTransient<IPullRequestHandler, PullRequestHandler>();
 builder.Services.AddTransient<ITicketHandler, TicketHandler>();
+builder.Services.AddTransient<IChatHandler, ChatHandler>();
 
 // Add services to enable vendor specific actions with ai output
 builder.Services.AddTransient<IPullRequestActor, PullRequestActor>();
 builder.Services.AddTransient<ITicketActor, TicketActor>();
+builder.Services.AddTransient<IChatActor, ChatActor>();
 
 var app = builder.Build();
 

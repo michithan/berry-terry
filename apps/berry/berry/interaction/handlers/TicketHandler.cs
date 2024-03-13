@@ -5,9 +5,13 @@ using leash.ticketing.ticket;
 
 namespace berry.interaction.handlers;
 
-public class TicketHandler(IAiContext AiContext, ITicketActor ticketActor) : ITicketHandler
+public class TicketHandler(IAiContext aiContext, ITicketActor ticketActor) : ITicketHandler
 {
-    public async Task HandleTicketComment(ITicket ticket, IThread thread, IComment comment)
+    private IAiContext AiContext { get; init; } = aiContext;
+
+    private ITicketActor TicketActor { get; init; } = ticketActor;
+
+    public async Task<string?> HandleTicketComment(ITicket ticket, IThread thread, IComment comment)
     {
         var prompt = @$"
         On the ticket, the following comment was made:
@@ -19,6 +23,6 @@ public class TicketHandler(IAiContext AiContext, ITicketActor ticketActor) : ITi
         var answer = result.ToString();
         var responseComment = comment.CreateAnswer(answer);
 
-        await ticketActor.AnswerTicketComment(ticket, thread, responseComment);
+        return await TicketActor.AnswerTicketComment(ticket, thread, responseComment);
     }
 }

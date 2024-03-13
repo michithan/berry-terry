@@ -9,5 +9,5 @@ public interface ITicketingProvider
 
     Task<IComment?> GetTicketCommentByIdAsync(string ticketId, string commentId);
 
-    Task CommentOnTicketAsync(ITicket ticket, IThread thread, IComment comment);
+    Task<string?> CommentOnTicketAsync(ITicket ticket, IThread thread, IComment comment);
 }

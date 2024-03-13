@@ -5,5 +5,5 @@ namespace berry.interaction.actions;
 
 public interface IPullRequestActor
 {
-    public Task AnswerPullRequestComment(IPullRequest pullRequest, IThread thread, IComment comment);
+    public Task<string?> AnswerPullRequestComment(IPullRequest pullRequest, IThread thread, IComment comment);
 }

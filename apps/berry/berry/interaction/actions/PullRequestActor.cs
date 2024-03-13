@@ -4,10 +4,10 @@ using leash.scm.provider;
 
 namespace berry.interaction.actions;
 
-public class PullRequestActor(IScmProvider ScmProvider) : IPullRequestActor
+public class PullRequestActor(IScmProvider scmProvider) : IPullRequestActor
 {
-    public async Task AnswerPullRequestComment(IPullRequest pullRequest, IThread thread, IComment comment)
-    {
-        await ScmProvider.CommentOnPullRequestThreadAsync(pullRequest, thread, comment);
-    }
+    private IScmProvider ScmProvider { get; init; } = scmProvider;
+
+    public Task<string?> AnswerPullRequestComment(IPullRequest pullRequest, IThread thread, IComment comment) =>
+        ScmProvider.CommentOnPullRequestThreadAsync(pullRequest, thread, comment);
 }

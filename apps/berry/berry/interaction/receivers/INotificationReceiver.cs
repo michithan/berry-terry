@@ -4,5 +4,5 @@ namespace berry.interaction.receivers;
 
 public interface INotificationReceiverBase
 {
-    public Task ReceiveNotification(JsonElement notificationBody);
+    public Task<string?> ReceiveNotification(JsonElement notificationBody);
 }

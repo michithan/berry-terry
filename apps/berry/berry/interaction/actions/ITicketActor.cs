@@ -5,5 +5,5 @@ namespace berry.interaction.actions;
 
 public interface ITicketActor
 {
-    public Task AnswerTicketComment(ITicket ticket, IThread thread, IComment comment);
+    public Task<string?> AnswerTicketComment(ITicket ticket, IThread thread, IComment comment);
 }

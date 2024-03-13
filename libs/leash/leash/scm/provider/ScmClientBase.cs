@@ -13,5 +13,5 @@ public abstract class ScmProviderBase : IScmProvider
 
     public abstract Task<IComment> GetCommentAsync(int pullRequestId, int threadId, int commentId);
 
-    public abstract Task CommentOnPullRequestThreadAsync(IPullRequest pullRequest, IThread thread, IComment comment);
+    public abstract Task<string?> CommentOnPullRequestThreadAsync(IPullRequest pullRequest, IThread thread, IComment comment);
 }

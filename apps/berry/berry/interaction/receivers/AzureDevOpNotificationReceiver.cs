@@ -17,7 +17,7 @@ public class AzureDevOpNotificationReceiver(IAzureDevOpsScmProvider azureDevOpsS
 
     private ITicketHandler TicketHandler { get; init; } = ticketHandler;
 
-    public Task ReceiveNotification(JsonElement notificationBody)
+    public Task<string?> ReceiveNotification(JsonElement notificationBody)
     {
         string? eventType = notificationBody.GetPropertyValue<string>("eventType");
         return eventType switch
@@ -28,7 +28,7 @@ public class AzureDevOpNotificationReceiver(IAzureDevOpsScmProvider azureDevOpsS
         };
     }
 
-    public async Task HandleWorkItemCommentedNotification(JsonElement notificationBody)
+    public async Task<string?> HandleWorkItemCommentedNotification(JsonElement notificationBody)
     {
         string ticketId = notificationBody.GetPropertyValueOrDefault<string>("resource", "id");
 
@@ -39,13 +39,13 @@ public class AzureDevOpNotificationReceiver(IAzureDevOpsScmProvider azureDevOpsS
 
         if (!comment.IsBotMentioned)
         {
-            return;
+            return null;
         }
 
-        await TicketHandler.HandleTicketComment(ticket, ticket.CommentThread, comment);
+        return await TicketHandler.HandleTicketComment(ticket, ticket.CommentThread, comment);
     }
 
-    public async Task HandlePullRequestCommentNotification(JsonElement notificationBody)
+    public async Task<string?> HandlePullRequestCommentNotification(JsonElement notificationBody)
     {
         int pullRequestId = notificationBody.GetPropertyValueOrDefault<string>("resource", "pullRequest", "pullRequestId").ToInt();
         int threadId = notificationBody.GetPropertyValueOrDefault<string>("resource", "comment", "_links", "threads", "href").Split('/').Last().ToInt();
@@ -55,12 +55,14 @@ public class AzureDevOpNotificationReceiver(IAzureDevOpsScmProvider azureDevOpsS
 
         if (!comment.IsBotMentioned)
         {
-            return;
+            return null;
         }
 
         var thread = await AzureDevOpsScmProvider.GetPullRequestThreadByIdAsync(pullRequestId, threadId);
         var pullRequest = await AzureDevOpsScmProvider.GetPullRequestByIdAsync(pullRequestId);
 
         await PullRequestHandler.HandlePullRequestComment(pullRequest, thread, comment);
+
+        return null;
     }
 }

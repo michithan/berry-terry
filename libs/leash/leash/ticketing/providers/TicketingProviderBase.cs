@@ -9,5 +9,5 @@ public abstract class TicketingProviderBase : ITicketingProvider
 
     public abstract Task<IComment?> GetTicketCommentByIdAsync(string ticketId, string commentId);
 
-    public abstract Task CommentOnTicketAsync(ITicket ticket, IThread thread, IComment comment);
+    public abstract Task<string?> CommentOnTicketAsync(ITicket ticket, IThread thread, IComment comment);
 }
