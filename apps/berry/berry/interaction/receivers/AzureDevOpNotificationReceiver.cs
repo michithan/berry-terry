@@ -1,5 +1,6 @@
 using System.Text.Json;
 using berry.interaction.handlers;
+using leash.clients.azuredevops;
 using leash.scm.provider.azuredevops;
 using leash.ticketing.providers.azuredevops;
 using leash.ticketing.ticket;
@@ -7,8 +8,10 @@ using leash.utils;
 
 namespace berry.interaction.receivers;
 
-public class AzureDevOpNotificationReceiver(IAzureDevOpsScmProvider azureDevOpsScmProvider, IAzureDevOpsTicketingProvider azureDevOpsTicketingProvider, IPullRequestHandler pullRequestHandler, ITicketHandler ticketHandler) : INotificationReceiverBase
+public class AzureDevOpNotificationReceiver(AzureDevOpsClientConfiguration azureDevOpsClientConfiguration, AzureDevOpsScmProvider azureDevOpsScmProvider, IAzureDevOpsTicketingProvider azureDevOpsTicketingProvider, IPullRequestHandler pullRequestHandler, ITicketHandler ticketHandler) : INotificationReceiverBase
 {
+    private AzureDevOpsClientConfiguration AzureDevOpsClientConfiguration { get; init; } = azureDevOpsClientConfiguration;
+
     private IAzureDevOpsScmProvider AzureDevOpsScmProvider { get; init; } = azureDevOpsScmProvider;
 
     private IAzureDevOpsTicketingProvider AzureDevOpsTicketingProvider { get; init; } = azureDevOpsTicketingProvider;
@@ -50,6 +53,13 @@ public class AzureDevOpNotificationReceiver(IAzureDevOpsScmProvider azureDevOpsS
         bool isDeleted = notificationBody.GetPropertyValueOrDefault<bool>("resource", "comment", "isDeleted");
 
         if (isDeleted)
+        {
+            return null;
+        }
+
+        string authorId = notificationBody.GetPropertyValueOrDefault<string>("resource", "comment", "author", "id");
+
+        if (authorId == AzureDevOpsClientConfiguration.IdentityId)
         {
             return null;
         }
