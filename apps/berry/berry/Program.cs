@@ -1,5 +1,4 @@
 using System.Configuration;
-using System.Text.Json;
 using berry.configuration;
 using berry.interaction.actions;
 using berry.interaction.ai;
@@ -13,11 +12,16 @@ using leash.scm.provider;
 using leash.scm.provider.azuredevops;
 using leash.ticketing.providers;
 using leash.ticketing.providers.azuredevops;
+using leash.utils;
 
 var builder = WebApplication.CreateBuilder(args);
 
 BerryConfiguration berryConfiguration = builder.Configuration.Get<BerryConfiguration>()
     ?? throw new ConfigurationErrorsException("BerryConfiguration is required. Please check the configuration file.");
+
+// Add logging
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
 
 // Add default services
 builder.Services.AddControllers();
@@ -73,7 +77,7 @@ if (app.Environment.IsDevelopment())
 {
     // Add development services
     app.UseDeveloperExceptionPage();
-    Console.WriteLine($"Config: {JsonSerializer.Serialize(berryConfiguration, new JsonSerializerOptions { WriteIndented = true })}");
+    app.Logger.LogInformation($"Config: {berryConfiguration.ToJsonString()}");
 }
 
 // Configure the HTTP request pipeline

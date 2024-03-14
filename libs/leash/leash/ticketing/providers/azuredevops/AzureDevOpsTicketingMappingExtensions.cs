@@ -1,5 +1,6 @@
 using leash.conversations;
 using leash.conversations.provider.azuredevops;
+using leash.scm.provider.azuredevops;
 using leash.ticketing.ticket.providers.azuredevops;
 using Microsoft.TeamFoundation.WorkItemTracking.WebApi.Models;
 
@@ -25,7 +26,7 @@ public static class AzureDevOpsTicketingMappingExtensions
     public static AzureDevOpsComment ToAzureDevOpsComment(this Comment adoComment, Func<string, bool> isBotMentioned) => new()
     {
         Id = adoComment.Id.ToString(),
-        Content = adoComment.Text,
+        Content = adoComment.GetContentWithMentionAsDisplayName(),
         IsBotMentioned = isBotMentioned(adoComment.Text)
     };
 }

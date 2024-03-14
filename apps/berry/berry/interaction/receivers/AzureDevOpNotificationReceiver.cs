@@ -8,7 +8,7 @@ using leash.utils;
 
 namespace berry.interaction.receivers;
 
-public class AzureDevOpNotificationReceiver(AzureDevOpsClientConfiguration azureDevOpsClientConfiguration, AzureDevOpsScmProvider azureDevOpsScmProvider, IAzureDevOpsTicketingProvider azureDevOpsTicketingProvider, IPullRequestHandler pullRequestHandler, ITicketHandler ticketHandler) : INotificationReceiverBase
+public class AzureDevOpNotificationReceiver(AzureDevOpsClientConfiguration azureDevOpsClientConfiguration, IAzureDevOpsScmProvider azureDevOpsScmProvider, IAzureDevOpsTicketingProvider azureDevOpsTicketingProvider, IPullRequestHandler pullRequestHandler, ITicketHandler ticketHandler) : INotificationReceiverBase
 {
     private AzureDevOpsClientConfiguration AzureDevOpsClientConfiguration { get; init; } = azureDevOpsClientConfiguration;
 
