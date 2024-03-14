@@ -30,13 +30,13 @@ public class AzureDevOpsClient(AzureDevOpsClientConfiguration azureDevOpsClientC
         AzureDevOpsClientCore.GitHttpClient.GetCommentAsync(RepositoryId, pullRequestId, threadId, commentId);
 
     public Task<Microsoft.TeamFoundation.WorkItemTracking.WebApi.Models.Comment> GetWorkItemCommentAsync(int workItemId, int commentId) =>
-        AzureDevOpsClientCore.WorkItemTrackingHttpClient.GetCommentAsync(Project, workItemId, commentId);
+        AzureDevOpsClientCore.WorkItemTrackingHttpClient.GetCommentAsync(Project, workItemId, commentId, false, CommentExpandOptions.All);
 
     public Task<WorkItem> GetWorkItemByIdAsync(int id) =>
-        AzureDevOpsClientCore.WorkItemTrackingHttpClient.GetWorkItemAsync(id, expand: WorkItemExpand.All);
+        AzureDevOpsClientCore.WorkItemTrackingHttpClient.GetWorkItemAsync(id, null, null, WorkItemExpand.All);
 
     public Task<CommentList> GetWorkItemCommentsAsync(int workItemId) =>
-        AzureDevOpsClientCore.WorkItemTrackingHttpClient.GetCommentsAsync(Project, workItemId);
+        AzureDevOpsClientCore.WorkItemTrackingHttpClient.GetCommentsAsync(Project, workItemId, null, null, false, CommentExpandOptions.All);
 
     public Task CreatePullRequestCommentAsync(Microsoft.TeamFoundation.SourceControl.WebApi.Comment comment, int pullRequestId, int threadId) =>
         AzureDevOpsClientCore.GitHttpClient.CreateCommentAsync(comment, RepositoryId, pullRequestId, threadId);

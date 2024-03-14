@@ -8,8 +8,10 @@
 
   <ItemGroup>
     <PackageReference Include="Google.Apis.HangoutsChat.v1" Version="1.67.0.3351" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.59" />
     <PackageReference Include="Microsoft.TeamFoundationServer.Client" Version="16.205.1" />
     <PackageReference Include="Microsoft.TeamFoundationServer.ExtendedClient" Version="16.205.1" />
+    <PackageReference Include="ReverseMarkdown" Version="4.3.0" />
   </ItemGroup>
 
 </Project>
