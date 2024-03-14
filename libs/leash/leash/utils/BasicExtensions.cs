@@ -17,4 +17,7 @@ public static class BasicExtensions
 
     public static bool ContainsAny(this string text, StringComparison comparison, params string[] values) =>
         values.Any(value => text.Contains(value, comparison));
+
+    public static string JoinToString(this IEnumerable<string> strings) =>
+        string.Join("", strings);
 }

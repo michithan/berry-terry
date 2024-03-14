@@ -16,5 +16,5 @@ public interface IPullRequest
 
     public string Url { get; }
 
-    public IEnumerable<IThread> Threads { get; }
+    public IList<IThread> Threads { get; }
 }

@@ -16,5 +16,5 @@ public abstract class PullRequestBase : IPullRequest
 
     public required string Url { get; init; }
 
-    public required IEnumerable<IThread> Threads { get; init; }
+    public required IList<IThread> Threads { get; init; }
 }
