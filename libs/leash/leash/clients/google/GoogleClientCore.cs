@@ -12,21 +12,13 @@ public class GoogleClientCore(GoogleClientConfiguration googleClientConfiguratio
 
     private readonly string[] ClientScopes = ["https://www.googleapis.com/auth/chat.bot"];
 
-    private string GetAccessToken()
-    {
-        ClientSecrets clientSecrets = new()
-        {
-            ClientId = GoogleClientConfiguration.ClientId,
-            ClientSecret = GoogleClientConfiguration.ClientSecret
-        };
-        var userCredential = GoogleWebAuthorizationBroker.AuthorizeAsync(
-                        clientSecrets,
-                        ClientScopes,
-                        GoogleClientConfiguration.UserName,
-                        CancellationToken.None)
-                        .Result;
-        return userCredential.Token.AccessToken;
-    }
+    private string GetAccessToken() =>
+        GoogleCredential
+            .FromJson(GoogleClientConfiguration.AccessKeyJson)
+            .CreateScoped(ClientScopes)
+            .UnderlyingCredential
+            .GetAccessTokenForRequestAsync()
+            .Result;
 
     private BaseClientService.Initializer GetBaseClientServiceInitializer()
     {
