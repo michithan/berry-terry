@@ -15,6 +15,7 @@ function Invoke-Deploy {
             -Replace '{{ ADO_WEBHOOK_SECRET }}', $env:ADO_WEBHOOK_SECRET `
             -Replace '{{ ADO_REPOSITORY_ID }}', $env:ADO_REPOSITORY_ID `
             -Replace '{{ ADO_IDENTITY_ID }}', $env:ADO_IDENTITY_ID `
+            -Replace '{{ ADO_IDENTITY_DISPLAY_NAME }}', $env:ADO_IDENTITY_DISPLAY_NAME `
             -Replace '{{ GOOGLE_CLIENT_ID }}', $env:GOOGLE_CLIENT_ID `
             -Replace '{{ GOOGLE_CLIENT_SECRET }}', $env:GOOGLE_CLIENT_SECRET `
             -Replace '{{ GOOGLE_USER_NAME }}', $env:GOOGLE_USER_NAME

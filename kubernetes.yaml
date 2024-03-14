@@ -93,6 +93,8 @@ spec:
               value: "{{ ADO_WEBHOOK_SECRET }}"
             - name: AzureDevOpsClientConfiguration_IdentityId
               value: "{{ ADO_IDENTITY_ID }}"
+            - name: AzureDevOpsClientConfiguration_IdentityDisplayName
+              value: "{{ ADO_IDENTITY_DISPLAY_NAME }}"
             - name: GoogleClientConfiguration_ClientId
               value: "{{ GOOGLE_CLIENT_ID }}"
             - name: GoogleClientConfiguration_ClientSecret

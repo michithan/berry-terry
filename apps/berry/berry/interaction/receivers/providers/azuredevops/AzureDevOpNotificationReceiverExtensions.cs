@@ -24,7 +24,7 @@ public static class AzureDevOpNotificationReceiverExtensions
 
     public static bool IsBotNotMentionedOnTicketComment(this JsonElement notificationBody, AzureDevOpsClientConfiguration azureDevOpsClientConfiguration) =>
         notificationBody
-            .GetPropertyValueOrDefault<string>("detailedMessage")
+            .GetPropertyValueOrDefault<string>("detailedMessage", "markdown")
             .IsBotMentioned(azureDevOpsClientConfiguration) is false;
 
     public static bool IsAuthorized(this AuthenticationHeaderValue authenticationHeaderValue, AzureDevOpsClientConfiguration azureDevOpsClientConfiguration) =>

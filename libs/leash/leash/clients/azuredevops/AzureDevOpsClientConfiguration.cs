@@ -45,4 +45,11 @@ public class AzureDevOpsClientConfiguration : ConfigurationBase
         get => GetEnvironmentVariableOrDefault(nameof(IdentityId), _IdentityId);
         init => _IdentityId = value;
     }
+
+    private string? _IdentityDisplayName { get; set; }
+    public required string IdentityDisplayName
+    {
+        get => GetEnvironmentVariableOrDefault(nameof(IdentityDisplayName), _IdentityDisplayName);
+        init => _IdentityDisplayName = value;
+    }
 }

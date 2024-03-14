@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using leash.clients.azuredevops;
+using leash.utils;
 
 namespace leash.scm.provider.azuredevops;
 
@@ -49,7 +50,7 @@ public static class AzureDevOpsMappingExtensions
 
     public static bool IsBotMentioned(this string text, AzureDevOpsClientConfiguration azureDevOpsClientConfiguration) =>
         text
-            .Contains(azureDevOpsClientConfiguration.IdentityId, StringComparison.OrdinalIgnoreCase);
+            .ContainsAny(StringComparison.OrdinalIgnoreCase, azureDevOpsClientConfiguration.IdentityId, azureDevOpsClientConfiguration.IdentityDisplayName);
 
     public static bool IsBotIdentityId(this string identityId, AzureDevOpsClientConfiguration azureDevOpsClientConfiguration) =>
         identityId
