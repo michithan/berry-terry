@@ -1,10 +1,18 @@
 using System.Text.Json;
+using System.Text.Json.Nodes;
 
-namespace berry.interaction.receivers;
-
+namespace leash.utils;
 
 public static class NotificationBodyExtensions
 {
+    private static readonly JsonSerializerOptions JsonSerializerOptions = new() { WriteIndented = true };
+
+    public static string ToJsonString(this JsonElement jsonElement) =>
+        JsonObject.Create(jsonElement)?.ToJsonString(JsonSerializerOptions) ?? string.Empty;
+
+    public static string ToJsonString(this object jObject) =>
+        JsonSerializer.Serialize(jObject, JsonSerializerOptions);
+
     public static JsonElement? GetProperty(this JsonElement notificationBody, params string[] propertyNames)
     {
         JsonElement property = notificationBody;
@@ -53,8 +61,4 @@ public static class NotificationBodyExtensions
             _ => throw new NotImplementedException($"GetPropertyValueOrDefault is not implemented for Type {typeof(T)}."),
         };
     }
-
-    private static T ToType<T>(this object value) => (T)value;
-
-    private static bool IsTypeOf<T>(this Type type) => type == typeof(T);
 }
