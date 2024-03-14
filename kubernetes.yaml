@@ -98,8 +98,7 @@ spec:
             - name: GoogleClientConfiguration_UserName
               value: "{{ GOOGLE_USER_NAME }}"
             - name: GoogleClientConfiguration_AccessKeyJson
-              value: |
-                {{ GOOGLE_ACCESS_KEY_JSON }}
+              value: {{ GOOGLE_ACCESS_KEY_JSON }}
 ---
 apiVersion: v1
 kind: ConfigMap
