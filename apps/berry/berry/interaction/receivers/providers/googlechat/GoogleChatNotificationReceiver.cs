@@ -1,15 +1,18 @@
+using System.Net.Http.Headers;
 using System.Text.Json;
 using berry.interaction.handlers;
 using leash.chat.providers.google;
 using leash.utils;
 
-namespace berry.interaction.receivers;
+namespace berry.interaction.receivers.providers.googlechat;
 
 public class GoogleChatNotificationReceiver(IGoogleChatProvider googleChatProvider, IChatHandler chatHandler) : NotificationReceiverBase
 {
     IGoogleChatProvider GoogleChatProvider { get; init; } = googleChatProvider;
 
     IChatHandler ChatHandler { get; init; } = chatHandler;
+
+    public override bool IsAuthorized(AuthenticationHeaderValue authenticationHeaderValue) => true;
 
     public override async Task<string?> ReceiveNotification(JsonElement notificationBody)
     {

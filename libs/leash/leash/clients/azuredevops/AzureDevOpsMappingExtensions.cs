@@ -7,12 +7,12 @@ public static class AzureDevOpsMappingExtensions
 {
     private static readonly Regex MentionRegex = new(@"@\<[({]?[a-fA-F0-9]{8}[-]?([a-fA-F0-9]{4}[-]?){3}[a-fA-F0-9]{12}[})]?\>");
 
-    private static string[] GetAllIdentityMentions(this string text) =>
+    private static string[] GetAllIdentityIdMentions(this string text) =>
         MentionRegex
             .Matches(text)
             .Select(match => match.Value).ToArray();
 
-    private static string MapIdentityMentionToIdentityId(this string mention) =>
+    private static string MapIdentityIdMentionToIdentityId(this string mention) =>
         mention
             .Replace("@<", string.Empty)
             .Replace(">", string.Empty);
@@ -26,24 +26,32 @@ public static class AzureDevOpsMappingExtensions
     private static string MapDisplayNameToMention(this string displayName) =>
         $"@<{displayName}>";
 
-    private static string MapIdentityMentionToDisplayNameMention(this string mention, IAzureDevOpsClient azureDevOpsClient) =>
+    private static string MapIdentityIdMentionToDisplayNameMention(this string mention, IAzureDevOpsClient azureDevOpsClient) =>
         mention
-            .MapIdentityMentionToIdentityId()
+            .MapIdentityIdMentionToIdentityId()
             .MapIdentityIdToDisplayName(azureDevOpsClient)
             .MapDisplayNameToMention();
 
-    private static string ReplaceAllIdentityIdsWithDisplayNames(this string text, IAzureDevOpsClient azureDevOpsClient) =>
+    private static string MapAllIdentityIdMentionsToDisplayNameMentions(this string text, IAzureDevOpsClient azureDevOpsClient) =>
         text
-            .GetAllIdentityMentions()
-            .Aggregate(text, (acc, mention) => text.Replace(mention, mention.MapIdentityMentionToDisplayNameMention(azureDevOpsClient)));
+            .GetAllIdentityIdMentions()
+            .Aggregate(text, (acc, mention) => text.Replace(mention, mention.MapIdentityIdMentionToDisplayNameMention(azureDevOpsClient)));
 
-    public static string GetContentWithMentionAsDisplayName(this Microsoft.TeamFoundation.SourceControl.WebApi.Comment comment, IAzureDevOpsClient azureDevOpsClient) =>
+    public static string MapAllIdentityIdMentionsToDisplayNameMentions(this Microsoft.TeamFoundation.SourceControl.WebApi.Comment comment, IAzureDevOpsClient azureDevOpsClient) =>
         comment
             .Content
-            .ReplaceAllIdentityIdsWithDisplayNames(azureDevOpsClient);
+            .MapAllIdentityIdMentionsToDisplayNameMentions(azureDevOpsClient);
 
-    public static string GetContentWithMentionAsDisplayName(this Microsoft.TeamFoundation.WorkItemTracking.WebApi.Models.Comment comment, IAzureDevOpsClient azureDevOpsClient) =>
+    public static string MapAllIdentityIdMentionsToDisplayNameMentions(this Microsoft.TeamFoundation.WorkItemTracking.WebApi.Models.Comment comment, IAzureDevOpsClient azureDevOpsClient) =>
         comment
             .Text
-            .ReplaceAllIdentityIdsWithDisplayNames(azureDevOpsClient);
+            .MapAllIdentityIdMentionsToDisplayNameMentions(azureDevOpsClient);
+
+    public static bool IsBotMentioned(this string text, AzureDevOpsClientConfiguration azureDevOpsClientConfiguration) =>
+        text
+            .Contains(azureDevOpsClientConfiguration.IdentityId, StringComparison.OrdinalIgnoreCase);
+
+    public static bool IsBotIdentityId(this string identityId, AzureDevOpsClientConfiguration azureDevOpsClientConfiguration) =>
+        identityId
+            .Equals(azureDevOpsClientConfiguration.IdentityId, StringComparison.OrdinalIgnoreCase);
 }

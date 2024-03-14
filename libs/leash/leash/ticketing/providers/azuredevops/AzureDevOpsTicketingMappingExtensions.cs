@@ -27,7 +27,6 @@ public static class AzureDevOpsTicketingMappingExtensions
     public static AzureDevOpsComment ToAzureDevOpsComment(this Comment adoComment, IAzureDevOpsClient azureDevOpsClient) => new()
     {
         Id = adoComment.Id.ToString(),
-        Content = adoComment.GetContentWithMentionAsDisplayName(azureDevOpsClient),
-        IsBotMentioned = azureDevOpsClient.IsMentionedOnComment(adoComment.Text)
+        Content = adoComment.MapAllIdentityIdMentionsToDisplayNameMentions(azureDevOpsClient)
     };
 }

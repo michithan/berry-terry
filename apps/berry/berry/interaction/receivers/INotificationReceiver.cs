@@ -1,8 +1,11 @@
+using System.Net.Http.Headers;
 using System.Text.Json;
 
 namespace berry.interaction.receivers;
 
-public interface INotificationReceiverBase
+public interface INotificationReceiver
 {
+    public bool IsAuthorized(AuthenticationHeaderValue authenticationHeaderValue);
+
     public Task<string?> ReceiveNotification(JsonElement notificationBody);
 }

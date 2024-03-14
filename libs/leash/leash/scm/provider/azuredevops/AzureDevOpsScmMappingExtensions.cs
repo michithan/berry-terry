@@ -31,7 +31,6 @@ public static class AzureDevOpsScmMappingExtensions
     public static AzureDevOpsComment MapToAzureDevOpsComment(this Comment comment, IAzureDevOpsClient azureDevOpsClient) => new()
     {
         Id = comment.Id.ToString(),
-        IsBotMentioned = azureDevOpsClient.IsMentionedOnComment(comment.Content),
-        Content = comment.GetContentWithMentionAsDisplayName(azureDevOpsClient)
+        Content = comment.MapAllIdentityIdMentionsToDisplayNameMentions(azureDevOpsClient)
     };
 }

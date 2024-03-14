@@ -1,3 +1,4 @@
+using System.Net.Http.Headers;
 using System.Text.Json;
 using berry.interaction.handlers;
 using leash.clients.azuredevops;
@@ -6,9 +7,9 @@ using leash.ticketing.providers.azuredevops;
 using leash.ticketing.ticket;
 using leash.utils;
 
-namespace berry.interaction.receivers;
+namespace berry.interaction.receivers.providers.azuredevops;
 
-public class AzureDevOpNotificationReceiver(AzureDevOpsClientConfiguration azureDevOpsClientConfiguration, IAzureDevOpsScmProvider azureDevOpsScmProvider, IAzureDevOpsTicketingProvider azureDevOpsTicketingProvider, IPullRequestHandler pullRequestHandler, ITicketHandler ticketHandler) : INotificationReceiverBase
+public class AzureDevOpNotificationReceiver(AzureDevOpsClientConfiguration azureDevOpsClientConfiguration, IAzureDevOpsScmProvider azureDevOpsScmProvider, IAzureDevOpsTicketingProvider azureDevOpsTicketingProvider, IPullRequestHandler pullRequestHandler, ITicketHandler ticketHandler) : INotificationReceiver
 {
     private AzureDevOpsClientConfiguration AzureDevOpsClientConfiguration { get; init; } = azureDevOpsClientConfiguration;
 
@@ -19,6 +20,8 @@ public class AzureDevOpNotificationReceiver(AzureDevOpsClientConfiguration azure
     private IPullRequestHandler PullRequestHandler { get; init; } = pullRequestHandler;
 
     private ITicketHandler TicketHandler { get; init; } = ticketHandler;
+
+    public bool IsAuthorized(AuthenticationHeaderValue authenticationHeaderValue) => authenticationHeaderValue.IsAuthorized(AzureDevOpsClientConfiguration);
 
     public Task<string?> ReceiveNotification(JsonElement notificationBody)
     {
@@ -33,6 +36,11 @@ public class AzureDevOpNotificationReceiver(AzureDevOpsClientConfiguration azure
 
     public async Task<string?> HandleWorkItemCommentedNotification(JsonElement notificationBody)
     {
+        if (notificationBody.IsBotNotMentionedOnTicketComment(AzureDevOpsClientConfiguration))
+        {
+            return null;
+        }
+
         string ticketId = notificationBody.GetPropertyValueOrDefault<string>("resource", "id");
 
         ITicket ticket = await AzureDevOpsTicketingProvider.GetTicketByIdAsync(ticketId)
@@ -40,17 +48,12 @@ public class AzureDevOpNotificationReceiver(AzureDevOpsClientConfiguration azure
 
         var comment = ticket.CommentThread.Comments.Last();
 
-        if (!comment.IsBotMentioned)
-        {
-            return null;
-        }
-
         return await TicketHandler.HandleTicketComment(ticket, ticket.CommentThread, comment);
     }
 
     public async Task<string?> HandlePullRequestCommentNotification(JsonElement notificationBody)
     {
-        if (IsDeleted(notificationBody) || IsFromBot(notificationBody))
+        if (notificationBody.IsPullRequestCommentDeleted() || notificationBody.IsPullRequestCommentFromBot(AzureDevOpsClientConfiguration) || notificationBody.IsBotNotMentionedOnPullRequestComment(AzureDevOpsClientConfiguration))
         {
             return null;
         }
@@ -60,12 +63,6 @@ public class AzureDevOpNotificationReceiver(AzureDevOpsClientConfiguration azure
         int commentId = notificationBody.GetPropertyValueOrDefault<string>("resource", "comment", "id").ToInt();
 
         var comment = await AzureDevOpsScmProvider.GetCommentAsync(pullRequestId, threadId, commentId);
-
-        if (!comment.IsBotMentioned)
-        {
-            return null;
-        }
-
         var thread = await AzureDevOpsScmProvider.GetPullRequestThreadByIdAsync(pullRequestId, threadId);
         var pullRequest = await AzureDevOpsScmProvider.GetPullRequestByIdAsync(pullRequestId);
 
@@ -73,8 +70,4 @@ public class AzureDevOpNotificationReceiver(AzureDevOpsClientConfiguration azure
 
         return null;
     }
-
-    private static bool IsDeleted(JsonElement notificationBody) => notificationBody.GetPropertyValueOrDefault<bool>("resource", "comment", "isDeleted");
-
-    private bool IsFromBot(JsonElement notificationBody) => notificationBody.GetPropertyValueOrDefault<string>("resource", "comment", "author", "id") == AzureDevOpsClientConfiguration.IdentityId;
 }

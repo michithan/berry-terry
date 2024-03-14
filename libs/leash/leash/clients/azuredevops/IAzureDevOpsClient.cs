@@ -20,8 +20,6 @@ public interface IAzureDevOpsClient
 
     public Task<CommentList> GetWorkItemCommentsAsync(int workItemId);
 
-    public bool IsMentionedOnComment(string comment);
-
     public Task CreatePullRequestCommentAsync(Microsoft.TeamFoundation.SourceControl.WebApi.Comment comment, int pullRequestId, int threadId);
 
     public Task CreateWorkItemCommentAsync(CommentCreate comment, int workItemId);
