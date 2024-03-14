@@ -2,7 +2,7 @@ using System.Net.Http.Headers;
 using System.Text.Json;
 using berry.interaction.receivers.providers.azuredevops;
 using berry.interaction.receivers.providers.googlechat;
-using Json.More;
+using leash.utils;
 using leash.chat.providers.google;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,7 +28,7 @@ public class WebHookController(ILogger<WebHookController> logger, AzureDevOpNoti
         }
 
         Logger.LogInformation("Received ADO notification");
-        Logger.LogInformation(notificationBody.ToJsonString());
+        Logger.LogInformation(notificationBody.ToBeautifulJsonString());
         AzureDevOpNotificationReceiver.ReceiveNotification(notificationBody);
 
         return Ok();
@@ -44,7 +44,7 @@ public class WebHookController(ILogger<WebHookController> logger, AzureDevOpNoti
         }
 
         Logger.LogInformation("Received google notification");
-        Logger.LogInformation(notificationBody.ToJsonString());
+        Logger.LogInformation(notificationBody.ToBeautifulJsonString());
 
         var answer = await GoogleChatNotificationReceiver.ReceiveNotification(notificationBody);
         if (answer is null)

@@ -7,10 +7,7 @@ public static class NotificationBodyExtensions
 {
     private static readonly JsonSerializerOptions JsonSerializerOptions = new() { WriteIndented = true };
 
-    public static string ToJsonString(this JsonElement jsonElement) =>
-        JsonObject.Create(jsonElement)?.ToJsonString(JsonSerializerOptions) ?? string.Empty;
-
-    public static string ToJsonString(this object jObject) =>
+    public static string ToBeautifulJsonString(this object jObject) =>
         JsonSerializer.Serialize(jObject, JsonSerializerOptions);
 
     public static JsonElement? GetProperty(this JsonElement notificationBody, params string[] propertyNames)

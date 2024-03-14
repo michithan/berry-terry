@@ -78,7 +78,7 @@ if (app.Environment.IsDevelopment())
 {
     // Add development services
     app.UseDeveloperExceptionPage();
-    app.Logger.LogInformation($"Config: {berryConfiguration.ToJsonString()}");
+    app.Logger.LogInformation($"Config: {berryConfiguration.ToBeautifulJsonString()}");
 }
 
 // Configure the HTTP request pipeline
