@@ -7,6 +7,6 @@ public class ChatActor(IChatProvider chatProvider) : IChatActor
 {
     private IChatProvider ChatProvider { get; init; } = chatProvider;
 
-    public Task<string?> AnswerChatMessage(IChatSpace space, IChatMessage message) =>
-        Task.FromResult(ChatProvider.SendMessageToSpace(space, message));
+    public Task AnswerChatMessage(IChatSpace space, IChatMessage message) =>
+        ChatProvider.SendMessageToSpace(space, message);
 }

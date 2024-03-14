@@ -8,6 +8,6 @@ public class TicketActor(ITicketingProvider ticketingProvider) : ITicketActor
 {
     private ITicketingProvider TicketingProvider { get; init; } = ticketingProvider;
 
-    public Task<string?> AnswerTicketComment(ITicket ticket, IThread thread, IComment comment) =>
+    public Task AnswerTicketComment(ITicket ticket, IThread thread, IComment comment) =>
         TicketingProvider.CommentOnTicketAsync(ticket, thread, comment);
 }

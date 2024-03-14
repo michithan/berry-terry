@@ -10,7 +10,7 @@ public class ChatHandler(IAiContext aiContext, IChatActor chatActor) : IChatHand
 
     private IChatActor ChatActor { get; init; } = chatActor;
 
-    public async Task<string?> HandleChatMessage(IChatSpace space, IChatMessage chatMessage)
+    public async Task HandleChatMessage(IChatSpace space, IChatMessage chatMessage)
     {
         var prompt = @$"
         You got a chat message with, the following content:
@@ -25,6 +25,6 @@ public class ChatHandler(IAiContext aiContext, IChatActor chatActor) : IChatHand
         var answer = result.ToString();
         var responseMessage = chatMessage.CreateAnswer(answer);
 
-        return await ChatActor.AnswerChatMessage(space, responseMessage);
+        await ChatActor.AnswerChatMessage(space, responseMessage);
     }
 }

@@ -14,13 +14,13 @@ public class GoogleChatNotificationReceiver(IGoogleChatProvider googleChatProvid
 
     public override bool IsAuthorized(AuthenticationHeaderValue authenticationHeaderValue) => true;
 
-    public override async Task<string?> ReceiveNotification(JsonElement notificationBody)
+    public override Task ReceiveNotification(JsonElement notificationBody)
     {
         var eventType = notificationBody.GetPropertyValueOrDefault<string>("type");
 
         if (eventType != "MESSAGE")
         {
-            return null;
+            return Task.CompletedTask;
         }
 
         var space = new GoogleChatSpace
@@ -33,6 +33,6 @@ public class GoogleChatNotificationReceiver(IGoogleChatProvider googleChatProvid
             IsBotMentioned = false,
         };
 
-        return await ChatHandler.HandleChatMessage(space, message);
+        return ChatHandler.HandleChatMessage(space, message);
     }
 }

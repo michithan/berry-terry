@@ -7,5 +7,5 @@ public interface INotificationReceiver
 {
     public bool IsAuthorized(AuthenticationHeaderValue authenticationHeaderValue);
 
-    public Task<string?> ReceiveNotification(JsonElement notificationBody);
+    public Task ReceiveNotification(JsonElement notificationBody);
 }

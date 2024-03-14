@@ -7,5 +7,5 @@ public abstract class NotificationReceiverBase : INotificationReceiver
 {
     public abstract bool IsAuthorized(AuthenticationHeaderValue authenticationHeaderValue);
 
-    public abstract Task<string?> ReceiveNotification(JsonElement notificationBody);
+    public abstract Task ReceiveNotification(JsonElement notificationBody);
 }

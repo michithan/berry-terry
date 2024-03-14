@@ -24,13 +24,12 @@ public class AzureDevOpsTicketingProvider(IAzureDevOpsClient azureDevOpsClient) 
         return ticket?.CommentThread.Comments.FirstOrDefault(comment => comment.Id == commentId);
     }
 
-    public override async Task<string?> CommentOnTicketAsync(ITicket ticket, IThread _, IComment comment)
+    public override async Task CommentOnTicketAsync(ITicket ticket, IThread _, IComment comment)
     {
         CommentCreate commentCreate = new()
         {
             Text = comment.Content
         };
         await AzureDevOpsClient.CreateWorkItemCommentAsync(commentCreate, ticket.TicketId.ToInt());
-        return commentCreate.Text;
     }
 }

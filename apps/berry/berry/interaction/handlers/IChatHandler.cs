@@ -4,5 +4,5 @@ namespace berry.interaction.handlers;
 
 public interface IChatHandler
 {
-    public Task<string?> HandleChatMessage(IChatSpace space, IChatMessage chatMessage);
+    public Task HandleChatMessage(IChatSpace space, IChatMessage chatMessage);
 }

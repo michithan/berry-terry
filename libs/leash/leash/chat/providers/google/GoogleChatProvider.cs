@@ -6,11 +6,11 @@ public class GoogleChatProvider(IGoogleClient googleClient) : ChatProviderBase, 
 {
     private IGoogleClient GoogleClient { get; init; } = googleClient;
 
-    public override string? SendMessageToSpace(IChatSpace space, IChatMessage message)
+    public override Task SendMessageToSpace(IChatSpace space, IChatMessage message)
     {
-        return message.Text;
-        // var googleMessage = message.ToGoogleChatMessage();
-        // GoogleClient.SendMessageToSpace(googleMessage, space.Name);
+        var googleMessage = message.ToGoogleChatMessage();
+        GoogleClient.SendMessageToSpace(googleMessage, space.Name);
+        return Task.CompletedTask;
     }
 
     public override IEnumerable<IChatMessage> GetAllUnreadMessages()

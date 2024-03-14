@@ -35,7 +35,7 @@ public class WebHookController(ILogger<WebHookController> logger, AzureDevOpNoti
     }
 
     [HttpPost("google")]
-    public async Task<ActionResult<GoogleChatMessageResponse>> HandleGooglePost([FromHeader(Name = "Authorization")] string authorizationHeader, [FromBody] JsonElement notificationBody)
+    public IActionResult HandleGooglePost([FromHeader(Name = "Authorization")] string authorizationHeader, [FromBody] JsonElement notificationBody)
     {
         var authorizationHeaderValue = AuthenticationHeaderValue.Parse(authorizationHeader);
         if (GoogleChatNotificationReceiver.IsAuthorized(authorizationHeaderValue) is false)
@@ -45,17 +45,8 @@ public class WebHookController(ILogger<WebHookController> logger, AzureDevOpNoti
 
         Logger.LogInformation("Received google notification");
         Logger.LogInformation(notificationBody.ToBeautifulJsonString());
+        GoogleChatNotificationReceiver.ReceiveNotification(notificationBody);
 
-        var answer = await GoogleChatNotificationReceiver.ReceiveNotification(notificationBody);
-        if (answer is null)
-        {
-            return Ok();
-        }
-
-        GoogleChatMessageResponse response = new()
-        {
-            Text = answer,
-        };
-        return Ok(response);
+        return Ok();
     }
 }

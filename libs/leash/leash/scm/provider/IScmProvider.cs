@@ -13,5 +13,5 @@ public interface IScmProvider
 
     Task<IComment> GetCommentAsync(int pullRequestId, int threadId, int commentId);
 
-    Task<string?> CommentOnPullRequestThreadAsync(IPullRequest pullRequest, IThread thread, IComment comment);
+    Task CommentOnPullRequestThreadAsync(IPullRequest pullRequest, IThread thread, IComment comment);
 }

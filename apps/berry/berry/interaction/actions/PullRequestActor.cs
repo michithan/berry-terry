@@ -8,6 +8,6 @@ public class PullRequestActor(IScmProvider scmProvider) : IPullRequestActor
 {
     private IScmProvider ScmProvider { get; init; } = scmProvider;
 
-    public Task<string?> AnswerPullRequestComment(IPullRequest pullRequest, IThread thread, IComment comment) =>
+    public Task AnswerPullRequestComment(IPullRequest pullRequest, IThread thread, IComment comment) =>
         ScmProvider.CommentOnPullRequestThreadAsync(pullRequest, thread, comment);
 }

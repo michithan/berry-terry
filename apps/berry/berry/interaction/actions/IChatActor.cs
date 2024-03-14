@@ -4,5 +4,5 @@ namespace berry.interaction.actions;
 
 public interface IChatActor
 {
-    public Task<string?> AnswerChatMessage(IChatSpace space, IChatMessage message);
+    public Task AnswerChatMessage(IChatSpace space, IChatMessage message);
 }

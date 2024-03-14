@@ -28,14 +28,13 @@ public class AzureDevOpsScmProvider(IAzureDevOpsClient azureDevOpsClient) : ScmP
         return thread.MapToAzureDevOpsThread(AzureDevOpsClient);
     }
 
-    public override async Task<string?> CommentOnPullRequestThreadAsync(IPullRequest pullRequest, IThread thread, IComment comment)
+    public override async Task CommentOnPullRequestThreadAsync(IPullRequest pullRequest, IThread thread, IComment comment)
     {
         var azureDevOpsComment = new Comment()
         {
             Content = comment.Content
         };
         await AzureDevOpsClient.CreatePullRequestCommentAsync(azureDevOpsComment, pullRequest.Id.ToInt(), thread.Id.ToInt());
-        return azureDevOpsComment.Content;
     }
 
     public override async Task<IComment> GetCommentAsync(int pullRequestId, int threadId, int commentId)

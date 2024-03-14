@@ -12,7 +12,7 @@ public class TicketHandler(IAiContext aiContext, ITicketActor ticketActor) : ITi
 
     private ITicketActor TicketActor { get; init; } = ticketActor;
 
-    public async Task<string?> HandleTicketComment(ITicket ticket, IThread thread, IComment comment)
+    public async Task HandleTicketComment(ITicket ticket, IThread thread, IComment comment)
     {
         var prompt = CreateRespondToTicketCommentPrompt(ticket, thread, comment);
 
@@ -21,7 +21,7 @@ public class TicketHandler(IAiContext aiContext, ITicketActor ticketActor) : ITi
         var answer = result.ToString();
         var responseComment = comment.CreateAnswer(answer);
 
-        return await TicketActor.AnswerTicketComment(ticket, thread, responseComment);
+        await TicketActor.AnswerTicketComment(ticket, thread, responseComment);
     }
 
     private static string CreateRespondToTicketCommentPrompt(ITicket ticket, IThread thread, IComment comment) =>

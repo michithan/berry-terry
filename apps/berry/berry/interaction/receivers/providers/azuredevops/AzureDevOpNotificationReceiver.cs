@@ -23,7 +23,7 @@ public class AzureDevOpNotificationReceiver(AzureDevOpsClientConfiguration azure
 
     public bool IsAuthorized(AuthenticationHeaderValue authenticationHeaderValue) => authenticationHeaderValue.IsAuthorized(AzureDevOpsClientConfiguration);
 
-    public Task<string?> ReceiveNotification(JsonElement notificationBody)
+    public Task ReceiveNotification(JsonElement notificationBody)
     {
         string? eventType = notificationBody.GetPropertyValue<string>("eventType");
         return eventType switch
@@ -34,11 +34,11 @@ public class AzureDevOpNotificationReceiver(AzureDevOpsClientConfiguration azure
         };
     }
 
-    public async Task<string?> HandleWorkItemCommentedNotification(JsonElement notificationBody)
+    public async Task HandleWorkItemCommentedNotification(JsonElement notificationBody)
     {
         if (notificationBody.IsTicketCommentFromBot(AzureDevOpsClientConfiguration) || notificationBody.IsTicketCommentNotMentioningBot(AzureDevOpsClientConfiguration))
         {
-            return null;
+            return;
         }
 
         string ticketId = notificationBody.GetPropertyValueOrDefault<string>("resource", "id");
@@ -48,14 +48,14 @@ public class AzureDevOpNotificationReceiver(AzureDevOpsClientConfiguration azure
 
         var comment = ticket.CommentThread.Comments.Last();
 
-        return await TicketHandler.HandleTicketComment(ticket, ticket.CommentThread, comment);
+        await TicketHandler.HandleTicketComment(ticket, ticket.CommentThread, comment);
     }
 
-    public async Task<string?> HandlePullRequestCommentNotification(JsonElement notificationBody)
+    public async Task HandlePullRequestCommentNotification(JsonElement notificationBody)
     {
         if (notificationBody.IsPullRequestCommentDeleted() || notificationBody.IsPullRequestCommentFromBot(AzureDevOpsClientConfiguration) || notificationBody.IsPullRequestCommentNotMentioningBot(AzureDevOpsClientConfiguration))
         {
-            return null;
+            return;
         }
 
         int pullRequestId = notificationBody.GetPropertyValueOrDefault<string>("resource", "pullRequest", "pullRequestId").ToInt();
@@ -67,7 +67,5 @@ public class AzureDevOpNotificationReceiver(AzureDevOpsClientConfiguration azure
         var pullRequest = await AzureDevOpsScmProvider.GetPullRequestByIdAsync(pullRequestId);
 
         await PullRequestHandler.HandlePullRequestComment(pullRequest, thread, comment);
-
-        return null;
     }
 }
