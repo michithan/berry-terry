@@ -32,9 +32,6 @@ public class AzureDevOpsClient(AzureDevOpsClientConfiguration azureDevOpsClientC
     public Task<Microsoft.TeamFoundation.WorkItemTracking.WebApi.Models.Comment> GetWorkItemCommentAsync(int workItemId, int commentId) =>
         AzureDevOpsClientCore.WorkItemTrackingHttpClient.GetCommentAsync(Project, workItemId, commentId);
 
-    public Task<IdentityDescriptor> GetIdentityAsync(Guid identityId) =>
-        AzureDevOpsClientCore.IdentityHttpClient.GetDescriptorByIdAsync(identityId);
-
     public bool IsMentionedOnComment(string comment) =>
         comment.Contains(AzureDevOpsClientConfiguration.IdentityId, StringComparison.OrdinalIgnoreCase);
 
@@ -49,4 +46,7 @@ public class AzureDevOpsClient(AzureDevOpsClientConfiguration azureDevOpsClientC
 
     public Task CreateWorkItemCommentAsync(CommentCreate comment, int workItemId) =>
         AzureDevOpsClientCore.WorkItemTrackingHttpClient.AddCommentAsync(comment, Project, workItemId);
+
+    public async Task<Identity> GetIdentityById(string identityId) =>
+        await AzureDevOpsClientCore.IdentityHttpClient.ReadIdentityAsync(new Guid(identityId));
 }

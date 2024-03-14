@@ -1,3 +1,4 @@
+using leash.clients.azuredevops;
 using leash.conversations;
 using leash.conversations.provider.azuredevops;
 using leash.scm.pullRequest;
@@ -21,16 +22,16 @@ public static class AzureDevOpsScmMappingExtensions
         Threads = []
     };
 
-    public static AzureDevOpsThread MapToAzureDevOpsThread(this GitPullRequestCommentThread adoThread, Func<string, bool> isBotMentioned) => new()
+    public static AzureDevOpsThread MapToAzureDevOpsThread(this GitPullRequestCommentThread adoThread, IAzureDevOpsClient azureDevOpsClient) => new()
     {
         Id = adoThread.Id.ToString(),
-        Comments = adoThread.Comments.Select(comment => comment.MapToAzureDevOpsComment(isBotMentioned)).ToList<IComment>()
+        Comments = adoThread.Comments.Select(comment => comment.MapToAzureDevOpsComment(azureDevOpsClient)).ToList<IComment>()
     };
 
-    public static AzureDevOpsComment MapToAzureDevOpsComment(this Comment comment, Func<string, bool> isBotMentioned) => new()
+    public static AzureDevOpsComment MapToAzureDevOpsComment(this Comment comment, IAzureDevOpsClient azureDevOpsClient) => new()
     {
         Id = comment.Id.ToString(),
-        IsBotMentioned = isBotMentioned(comment.Content),
-        Content = comment.GetContentWithMentionAsDisplayName();
+        IsBotMentioned = azureDevOpsClient.IsMentionedOnComment(comment.Content),
+        Content = comment.GetContentWithMentionAsDisplayName(azureDevOpsClient)
     };
 }

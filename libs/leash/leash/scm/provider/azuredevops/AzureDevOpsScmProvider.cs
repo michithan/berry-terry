@@ -25,7 +25,7 @@ public class AzureDevOpsScmProvider(IAzureDevOpsClient azureDevOpsClient) : ScmP
     public override async Task<IThread> GetPullRequestThreadByIdAsync(int pullRequestId, int threadId)
     {
         var thread = await AzureDevOpsClient.GetPullRequestThreadAsync(pullRequestId, threadId) ?? throw new Exception($"Thread with id {threadId} not found");
-        return thread.MapToAzureDevOpsThread(AzureDevOpsClient.IsMentionedOnComment);
+        return thread.MapToAzureDevOpsThread(AzureDevOpsClient);
     }
 
     public override async Task<string?> CommentOnPullRequestThreadAsync(IPullRequest pullRequest, IThread thread, IComment comment)
@@ -42,6 +42,6 @@ public class AzureDevOpsScmProvider(IAzureDevOpsClient azureDevOpsClient) : ScmP
     {
         var adoComment = await AzureDevOpsClient.GetPullRequestCommentAsync(pullRequestId, threadId, commentId)
             ?? throw new Exception($"Comment with id {commentId} not found");
-        return adoComment.MapToAzureDevOpsComment(AzureDevOpsClient.IsMentionedOnComment);
+        return adoComment.MapToAzureDevOpsComment(AzureDevOpsClient);
     }
 }

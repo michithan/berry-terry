@@ -16,8 +16,6 @@ public interface IAzureDevOpsClient
 
     public Task<Microsoft.TeamFoundation.WorkItemTracking.WebApi.Models.Comment> GetWorkItemCommentAsync(int workItemId, int commentId);
 
-    public Task<IdentityDescriptor> GetIdentityAsync(Guid identityId);
-
     public Task<WorkItem> GetWorkItemByIdAsync(int id);
 
     public Task<CommentList> GetWorkItemCommentsAsync(int workItemId);
@@ -27,4 +25,6 @@ public interface IAzureDevOpsClient
     public Task CreatePullRequestCommentAsync(Microsoft.TeamFoundation.SourceControl.WebApi.Comment comment, int pullRequestId, int threadId);
 
     public Task CreateWorkItemCommentAsync(CommentCreate comment, int workItemId);
+
+    public Task<Identity> GetIdentityById(string identityId);
 }

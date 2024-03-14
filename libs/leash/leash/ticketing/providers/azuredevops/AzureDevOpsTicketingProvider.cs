@@ -15,7 +15,7 @@ public class AzureDevOpsTicketingProvider(IAzureDevOpsClient azureDevOpsClient) 
         int workItemId = id.ToInt();
         var adoWorkItem = await AzureDevOpsClient.GetWorkItemByIdAsync(workItemId) ?? throw new Exception($"Ticket with id {id} not found");
         var comments = await AzureDevOpsClient.GetWorkItemCommentsAsync(workItemId);
-        return adoWorkItem.ToAzureDevOpsTicket(comments, AzureDevOpsClient.IsMentionedOnComment);
+        return adoWorkItem.ToAzureDevOpsTicket(comments, AzureDevOpsClient);
     }
 
     public override async Task<IComment?> GetTicketCommentByIdAsync(string ticketId, string commentId)
