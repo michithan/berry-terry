@@ -36,7 +36,7 @@ public class AzureDevOpNotificationReceiver(AzureDevOpsClientConfiguration azure
 
     public async Task<string?> HandleWorkItemCommentedNotification(JsonElement notificationBody)
     {
-        if (notificationBody.IsBotNotMentionedOnTicketComment(AzureDevOpsClientConfiguration))
+        if (notificationBody.IsTicketCommentFromBot(AzureDevOpsClientConfiguration) || notificationBody.IsTicketCommentNotMentioningBot(AzureDevOpsClientConfiguration))
         {
             return null;
         }
@@ -53,7 +53,7 @@ public class AzureDevOpNotificationReceiver(AzureDevOpsClientConfiguration azure
 
     public async Task<string?> HandlePullRequestCommentNotification(JsonElement notificationBody)
     {
-        if (notificationBody.IsPullRequestCommentDeleted() || notificationBody.IsPullRequestCommentFromBot(AzureDevOpsClientConfiguration) || notificationBody.IsBotNotMentionedOnPullRequestComment(AzureDevOpsClientConfiguration))
+        if (notificationBody.IsPullRequestCommentDeleted() || notificationBody.IsPullRequestCommentFromBot(AzureDevOpsClientConfiguration) || notificationBody.IsPullRequestCommentNotMentioningBot(AzureDevOpsClientConfiguration))
         {
             return null;
         }

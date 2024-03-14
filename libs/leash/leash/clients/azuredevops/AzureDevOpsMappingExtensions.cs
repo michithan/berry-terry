@@ -50,7 +50,7 @@ public static class AzureDevOpsMappingExtensions
 
     public static bool IsBotMentioned(this string text, AzureDevOpsClientConfiguration azureDevOpsClientConfiguration) =>
         text
-            .ContainsAny(StringComparison.OrdinalIgnoreCase, azureDevOpsClientConfiguration.IdentityId, azureDevOpsClientConfiguration.IdentityDisplayName);
+            .ContainsAny(azureDevOpsClientConfiguration.IdentityId, azureDevOpsClientConfiguration.IdentityDisplayName);
 
     public static bool IsBotIdentityId(this string identityId, AzureDevOpsClientConfiguration azureDevOpsClientConfiguration) =>
         identityId

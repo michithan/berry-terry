@@ -12,6 +12,9 @@ public static class BasicExtensions
 
     public static string ConvertFromBase64(this string value) => Encoding.UTF8.GetString(Convert.FromBase64String(value));
 
+    public static bool ContainsAny(this string text, params string[] values) =>
+        text.ContainsAny(StringComparison.OrdinalIgnoreCase, values);
+
     public static bool ContainsAny(this string text, StringComparison comparison, params string[] values) =>
         values.Any(value => text.Contains(value, comparison));
 }
