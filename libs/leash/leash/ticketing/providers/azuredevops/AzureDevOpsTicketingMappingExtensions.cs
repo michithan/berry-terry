@@ -14,7 +14,7 @@ public static class AzureDevOpsTicketingMappingExtensions
     public static AzureDevOpsTicket ToAzureDevOpsTicket(this WorkItem adoWorkItem, CommentList comments, IAzureDevOpsClient azureDevOpsClient) => new()
     {
         Title = adoWorkItem.Fields["System.Title"]?.ToString() ?? string.Empty,
-        Description = adoWorkItem.Fields["System.Description"]?.ToString() ?? string.Empty,
+        Description = adoWorkItem.Fields["System.Description"]?.ToString()?.SanitizeAzureDevOpsWorkItemHtml().FromHtmlToMarkdown() ?? string.Empty,
         TicketId = adoWorkItem.Id.ToString() ?? string.Empty,
         TicketUrl = adoWorkItem.Url,
         CommentThread = comments.ToAzureDevOpsThread(azureDevOpsClient)
