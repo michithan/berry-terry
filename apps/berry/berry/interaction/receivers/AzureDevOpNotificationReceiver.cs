@@ -50,16 +50,7 @@ public class AzureDevOpNotificationReceiver(AzureDevOpsClientConfiguration azure
 
     public async Task<string?> HandlePullRequestCommentNotification(JsonElement notificationBody)
     {
-        bool isDeleted = notificationBody.GetPropertyValueOrDefault<bool>("resource", "comment", "isDeleted");
-
-        if (isDeleted)
-        {
-            return null;
-        }
-
-        string authorId = notificationBody.GetPropertyValueOrDefault<string>("resource", "comment", "author", "id");
-
-        if (authorId == AzureDevOpsClientConfiguration.IdentityId)
+        if (IsDeleted(notificationBody) || IsFromBot(notificationBody))
         {
             return null;
         }
@@ -82,4 +73,8 @@ public class AzureDevOpNotificationReceiver(AzureDevOpsClientConfiguration azure
 
         return null;
     }
+
+    private static bool IsDeleted(JsonElement notificationBody) => notificationBody.GetPropertyValueOrDefault<bool>("resource", "comment", "isDeleted");
+
+    private bool IsFromBot(JsonElement notificationBody) => notificationBody.GetPropertyValueOrDefault<string>("resource", "comment", "author", "id") == AzureDevOpsClientConfiguration.IdentityId;
 }

@@ -31,6 +31,6 @@ public static class AzureDevOpsScmMappingExtensions
     {
         Id = comment.Id.ToString(),
         IsBotMentioned = isBotMentioned(comment.Content),
-        Content = comment.Content
+        Content = comment.Content.Replace($"<@{comment.Author.Id}>", $"@{comment.Author.DisplayName}")
     };
 }
