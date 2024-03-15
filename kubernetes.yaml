@@ -140,7 +140,14 @@ data:
         "Project": "<ADO_PROJECT_NAME>",
         "Token": "<ADO_PERSONAL_ACCESS_TOKEN>",
         "RepositoryId": "<ADO_REPOSITORY_ID>",
-        "WebhookSecret": "<ADO_WEBHOOK_SECRET>"
+        "WebhookSecret": "<ADO_WEBHOOK_SECRET>",
+        "IdentityId": "<ADO_IDENTITY_ID>",
+        "IdentityDisplayName": "<ADO_IDENTITY_DISPLAY_NAME>"
+      },
+      "GoogleClientConfiguration": {
+        "UserName": "<GOOGLE_USER_NAME>",
+        "ApplicationName": "<GOOGLE_APPLICATION_NAME>",
+        "AccessKeyJson": "<GOOGLE_ACCESS_KEY_JSON>"
       }
     }
 ---
