@@ -11,6 +11,13 @@ public class GoogleClientConfiguration : ConfigurationBase
         init => _UserName = value;
     }
 
+    private string? _ApplicationName { get; set; }
+    public required string ApplicationName
+    {
+        get => GetEnvironmentVariableOrDefault(nameof(ApplicationName), _ApplicationName);
+        init => _ApplicationName = value;
+    }
+
     private string? _AccessKeyJson { get; set; }
     public required string AccessKeyJson
     {

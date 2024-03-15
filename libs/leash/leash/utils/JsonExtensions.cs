@@ -4,10 +4,15 @@ namespace leash.utils;
 
 public static class NotificationBodyExtensions
 {
-    private static readonly JsonSerializerOptions JsonSerializerOptions = new() { WriteIndented = true };
+    private static readonly JsonSerializerOptions BeautifulJsonSerializerOptions = new() { WriteIndented = true };
+
+    private static readonly JsonSerializerOptions CompactJsonSerializerOptions = new() { WriteIndented = false };
 
     public static string ToBeautifulJsonString(this object jObject) =>
-        JsonSerializer.Serialize(jObject, JsonSerializerOptions);
+        JsonSerializer.Serialize(jObject, BeautifulJsonSerializerOptions);
+
+    public static string ToCompactJsonString(this object jObject) =>
+        JsonSerializer.Serialize(jObject, CompactJsonSerializerOptions);
 
     public static JsonElement? GetProperty(this JsonElement notificationBody, params string[] propertyNames)
     {

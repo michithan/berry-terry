@@ -6,6 +6,7 @@ using leash.scm.provider.azuredevops;
 using leash.ticketing.providers.azuredevops;
 using leash.ticketing.ticket;
 using leash.utils;
+using Microsoft.AspNetCore.Mvc;
 
 namespace berry.interaction.receivers.providers.azuredevops;
 
@@ -23,7 +24,7 @@ public class AzureDevOpNotificationReceiver(AzureDevOpsClientConfiguration azure
 
     public bool IsAuthorized(AuthenticationHeaderValue authenticationHeaderValue) => authenticationHeaderValue.IsAuthorized(AzureDevOpsClientConfiguration);
 
-    public Task ReceiveNotification(JsonElement notificationBody)
+    public Task ReceiveNotification(JsonElement notificationBody, Action<Func<object, OkObjectResult>>? callback = null)
     {
         string? eventType = notificationBody.GetPropertyValue<string>("eventType");
         return eventType switch

@@ -3,6 +3,7 @@ using System.Text.Json;
 using berry.interaction.handlers;
 using leash.chat.providers.google;
 using leash.utils;
+using Microsoft.AspNetCore.Mvc;
 
 namespace berry.interaction.receivers.providers.googlechat;
 
@@ -14,7 +15,7 @@ public class GoogleChatNotificationReceiver(IGoogleChatProvider googleChatProvid
 
     public override bool IsAuthorized(AuthenticationHeaderValue authenticationHeaderValue) => true;
 
-    public override Task ReceiveNotification(JsonElement notificationBody)
+    public override Task ReceiveNotification(JsonElement notificationBody, Action<Func<object, OkObjectResult>>? callback = null)
     {
         var eventType = notificationBody.GetPropertyValueOrDefault<string>("type");
 
@@ -33,6 +34,6 @@ public class GoogleChatNotificationReceiver(IGoogleChatProvider googleChatProvid
             IsBotMentioned = false,
         };
 
-        return ChatHandler.HandleChatMessage(space, message);
+        return ChatHandler.HandleChatMessage(space, message, callback);
     }
 }

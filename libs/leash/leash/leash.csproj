@@ -12,6 +12,7 @@
     <PackageReference Include="Microsoft.TeamFoundationServer.Client" Version="16.205.1" />
     <PackageReference Include="Microsoft.TeamFoundationServer.ExtendedClient" Version="16.205.1" />
     <PackageReference Include="ReverseMarkdown" Version="4.3.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
 </Project>

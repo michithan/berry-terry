@@ -1,6 +1,7 @@
 using berry.interaction.actions;
 using berry.interaction.ai;
 using leash.chat;
+using Microsoft.AspNetCore.Mvc;
 
 namespace berry.interaction.handlers;
 
@@ -10,7 +11,7 @@ public class ChatHandler(IAiContext aiContext, IChatActor chatActor) : IChatHand
 
     private IChatActor ChatActor { get; init; } = chatActor;
 
-    public async Task HandleChatMessage(IChatSpace space, IChatMessage chatMessage)
+    public async Task HandleChatMessage(IChatSpace space, IChatMessage chatMessage, Action<Func<object, OkObjectResult>>? callback = null)
     {
         var prompt = @$"
         You got a chat message with, the following content:
@@ -25,6 +26,6 @@ public class ChatHandler(IAiContext aiContext, IChatActor chatActor) : IChatHand
         var answer = result.ToString();
         var responseMessage = chatMessage.CreateAnswer(answer);
 
-        await ChatActor.AnswerChatMessage(space, responseMessage);
+        await ChatActor.AnswerChatMessage(space, responseMessage, callback);
     }
 }

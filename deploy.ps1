@@ -17,6 +17,7 @@ function Invoke-Deploy {
             -Replace '{{ ADO_IDENTITY_ID }}', $env:ADO_IDENTITY_ID `
             -Replace '{{ ADO_IDENTITY_DISPLAY_NAME }}', $env:ADO_IDENTITY_DISPLAY_NAME `
             -Replace '{{ GOOGLE_USER_NAME }}', $env:GOOGLE_USER_NAME `
+            -Replace '{{ GOOGLE_APPLICATION_NAME }}', $env:GOOGLE_APPLICATION_NAME `
             -Replace '{{ GOOGLE_ACCESS_KEY_JSON }}', $env:GOOGLE_ACCESS_KEY_JSON
     }
     Write-Output $kubernetesConfig
