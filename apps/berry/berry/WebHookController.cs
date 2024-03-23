@@ -1,6 +1,7 @@
 using System.Net.Http.Headers;
 using System.Text.Json;
 using berry.interaction.receivers.providers.azuredevops;
+using berry.interaction.receivers.providers.github;
 using berry.interaction.receivers.providers.googlechat;
 using leash.chat.providers.google;
 using leash.utils;
@@ -10,13 +11,15 @@ namespace berry;
 
 [Route("api/webhooks")]
 [ApiController]
-public class WebHookController(ILogger<WebHookController> logger, AzureDevOpNotificationReceiver azureDevOpNotificationReceiver, GoogleChatNotificationReceiver googleChatNotificationReceiver) : ControllerBase
+public class WebHookController(ILogger<WebHookController> logger, AzureDevOpNotificationReceiver azureDevOpNotificationReceiver, GoogleChatNotificationReceiver googleChatNotificationReceiver, GithubNotificationReceiver githubNotificationReceiver) : ControllerBase
 {
     private ILogger Logger { get; init; } = logger;
 
     private AzureDevOpNotificationReceiver AzureDevOpNotificationReceiver { get; init; } = azureDevOpNotificationReceiver;
 
     private GoogleChatNotificationReceiver GoogleChatNotificationReceiver { get; init; } = googleChatNotificationReceiver;
+
+    private GithubNotificationReceiver GithubNotificationReceiver { get; init; } = githubNotificationReceiver;
 
     [HttpPost("ado")]
     public IActionResult HandleAdoPost([FromHeader(Name = "Authorization")] string authorizationHeader, [FromBody] JsonElement notificationBody)
@@ -58,5 +61,21 @@ public class WebHookController(ILogger<WebHookController> logger, AzureDevOpNoti
         Logger.LogInformation($"Processed google chat notification in {watch.ElapsedMilliseconds}ms");
 
         return result;
+    }
+
+    [HttpPost("github")]
+    public IActionResult HandleGitHubPost([FromBody] JsonElement notificationBody)
+    {
+        var watch = System.Diagnostics.Stopwatch.StartNew();
+
+        Logger.LogInformation("Received github notification");
+        Logger.LogInformation(notificationBody.ToBeautifulJsonString());
+
+        _ = GithubNotificationReceiver.ReceiveNotification(notificationBody);
+
+        watch.Stop();
+        Logger.LogInformation($"Processed github notification in {watch.ElapsedMilliseconds}ms");
+
+        return Ok();
     }
 }
